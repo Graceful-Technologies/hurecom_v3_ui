@@ -1,0 +1,59 @@
+<div class="hr-card">
+    <div class="hr-table-header">
+        <div>
+            <h2 class="hr-table-title">Team Members</h2>
+        </div>
+        <p-button label="Add Member" icon="pi pi-plus" (onClick)="openAddMemberDialog()"></p-button>
+    </div>
+    <p-table [value]="teamMembers()">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Member</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined On</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-teamMember>
+            <tr>
+                <td>
+                    <div class="hr-cell-primary">{{ teamMember.userName }}</div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ teamMember.email }}
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ teamMember.roleName }}
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ teamMember.startDate | date:'mediumDate' }}
+                    </div>
+                </td>
+                <td>
+                    <p-button label="Remove" variant="outlined" (click)="removeTeamMember(teamMember)" size="small">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">
+                    <div class="hr-empty">
+                        <i class="pi pi-users"></i>
+                        <p class="hr-empty-title">No members found</p>
+                        <p class="hr-empty-sub">Click <span class="font-medium">Add Member</span> to add members to
+                            the
+                            team
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

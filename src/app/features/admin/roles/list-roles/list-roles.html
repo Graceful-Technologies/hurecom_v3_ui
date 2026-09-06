@@ -1,0 +1,48 @@
+<div class="hr-card">
+    <div class="hr-page-header">
+        <div>
+            <h2 class="hr-page-title">Roles</h2>
+            <p class="hr-page-sub">Manage roles and their permissions</p>
+        </div>
+    </div>
+
+    <p-table [value]="roles()">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">Role <p-sortIcon field="name" /></th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-role>
+            <tr>
+                <td>
+                    <div class="hr-cell-primary">{{ role.description }}</div>
+                </td>
+                <td>
+                    <span class="hr-badge" [ngClass]="role.active ? 'status-active' : 'status-inactive'">
+                        {{ role.active ? 'Active' : 'Inactive' }}
+                    </span>
+                </td>
+                <td>
+                    <div class="hr-action-buttons">
+                        <button class="hr-action-btn" pTooltip="Edit role" tooltipPosition="top">
+                            <i class="pi pi-pencil"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3">
+                    <div class="hr-empty">
+                        <i class="pi pi-users"></i>
+                        <p class="hr-empty-title">No roles found</p>
+                        <p class="hr-empty-sub">Try adjusting your search or filter</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,31 @@
+<div class="flex items-center justify-end gap-3 mt-4">
+
+    <!-- Left -->
+    <div class="flex items-center gap-3 text-sm">
+
+        <span style="color: #334155;">Items per page:</span>
+
+        <!-- FIXED -->
+        <p-select [options]="rowsOptions()" [ngModel]="rows()" (onChange)="onRowsChange($event.value)">
+        </p-select>
+
+        <span style="color: #334155;">
+            {{ firstRecord() }} - {{ lastRecord() }} of {{ totalRecords() }}
+        </span>
+
+    </div>
+
+    <!-- Right -->
+    <div class="flex items-center gap-2">
+
+        <button class="hr-page-btn" [disabled]="!hasPrev()" (click)="prev()">
+            <i class="pi pi-angle-left"></i>
+        </button>
+
+        <button class="hr-page-btn" [disabled]="!hasNext()" (click)="next()">
+            <i class="pi pi-angle-right"></i>
+        </button>
+
+    </div>
+
+</div>

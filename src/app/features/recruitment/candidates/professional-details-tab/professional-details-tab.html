@@ -1,0 +1,174 @@
+<div class="">
+    <div class="flex items-center justify-between mb-3">
+        <div class="text-[15px] font-[600]">
+            Professional Information
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+        <!-- Name -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Company Name
+            </label>
+
+            <input pInputText formControlName="currentCompany" class="w-full" />
+        </div>
+
+        <!-- Designation -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Designation
+            </label>
+
+            <input pInputText formControlName="currentDesignation" class="w-full" />
+        </div>
+
+        <!-- Qualification -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Qualification
+            </label>
+
+            <input pInputText formControlName="qualification" class="w-full" />
+        </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4 mt-3">
+        <!-- Total Experience -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Total Experience
+            </label>
+            <p-inputNumber formControlName="totalExperience" mode="decimal" [min]="0" [max]="50" [minFractionDigits]="0"
+                [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+        </div>
+
+        <!-- Relevant Experience -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Relevant Experience
+            </label>
+            <p-inputNumber formControlName="relevantExperience" mode="decimal" [min]="0" [max]="50"
+                [minFractionDigits]="0" [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+        </div>
+
+        <!-- Current Location -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Current Location
+            </label>
+
+            <input pInputText formControlName="currentLocation" class="w-full" />
+
+        </div>
+
+        <!-- Preferred Location -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Preferred Location
+            </label>
+
+            <input pInputText formControlName="preferredLocation" class="w-full" />
+        </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4 mt-3">
+        <!-- Current CTC -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Current CTC
+            </label>
+            <p-inputNumber formControlName="currentCtc" mode="decimal" [min]="0" [minFractionDigits]="0"
+                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+        </div>
+
+        <!-- Expected CTC -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Expected CTC
+            </label>
+            <p-inputNumber formControlName="expectedCtc" mode="decimal" [min]="0" [minFractionDigits]="0"
+                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4">
+
+        <!-- Work Mode Preference -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Work Mode Preference
+            </label>
+
+            <p-select appendTo="body" [options]="genderList()" formControlName="gender" optionLabel="name"
+                optionValue="code" placeholder="Select Gender" class="w-full">
+            </p-select>
+        </div>
+
+
+        <!-- Skills -->
+        <div class="col-span-2 flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Skills <span class="text-red-500">*</span>
+            </label>
+
+            <p-autocomplete inputId="chips-combined" formControlName="skills" multiple fluid [typeahead]="false"
+                [addOnBlur]="true" [addOnTab]="true" separator=","
+                placeholder="Use Tab, Enter, or Comma to add skills..." (keydown.enter)="$event.preventDefault()">
+            </p-autocomplete>
+            @if (candidateForm().controls['skills'].invalid &&
+            candidateForm().controls['skills'].dirty) {
+
+            <small class="text-red-500">
+                Skills is required
+            </small>
+            }
+        </div>
+
+        <!-- Notice Period -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Notice Period
+            </label>
+
+            <p-select appendTo="body" [options]="genderList()" formControlName="gender" optionLabel="name"
+                optionValue="code" placeholder="Select Gender" class="w-full">
+            </p-select>
+        </div>
+
+        <!-- Last Working Day -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Last Working Day
+            </label>
+            <p-datepicker appendTo="body" formControlName="lastWorkingDay" />
+        </div>
+
+        <!-- Remarks -->
+        <div class="col-span-2 flex flex-col gap-1">
+
+            <label class="text-[13px] font-medium text-gray-700">
+                Recruiter Notes
+            </label>
+            <textarea rows="3" cols="30" pTextarea formControlName="remarks"></textarea>
+        </div>
+    </div>
+</div>

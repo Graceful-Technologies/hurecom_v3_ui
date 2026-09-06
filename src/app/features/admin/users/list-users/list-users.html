@@ -1,0 +1,67 @@
+<div class="hr-card">
+    <div class="hr-page">
+        <div class="hr-page-header">
+            <div>
+                <h2 class="hr-page-title">Users</h2>
+                <p class="hr-page-sub">Manage platform users and their access</p>
+            </div>
+            <p-button label="Add User" icon="pi pi-plus" (onClick)="openAddUser()" />
+        </div>
+
+        <p-table [value]="users()">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile No.</th>
+                    <th>Role</th>
+                    <th>Created On</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <td>
+                        <div class="hr-cell-primary">{{ user.name }}</div>
+                    </td>
+                    <td>
+                        <span class="hr-cell-primary">{{ user.email }}</span>
+                    </td>
+                    <td>
+                        <span class="hr-cell-primary">{{ user.mobileNumber }}</span>
+                    </td>
+                    <td>
+                        <span class="hr-cell-primary">{{ user.roleName }}</span>
+                    </td>
+                    <td>
+                        <span class="hr-cell-primary">{{ user.createdDate | date: 'dd MMM yyyy' }}</span>
+                    </td>
+                    <td>
+                        <span class="hr-badge" [ngClass]="user.active ? 'status-active' : 'status-inactive'">
+                            {{ user.active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td>
+                        <p-button label="Edit" variant="outlined" (onClick)="openEditUser(user)" size="small">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="hr-empty">
+                            <i class="pi pi-users"></i>
+                            <p class="hr-empty-title">No users found</p>
+                            <p class="hr-empty-sub">Try adjusting your search or filter</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <app-paginator [totalRecords]="totalRecords()" [rows]="rowsPerPage()" [page]="currentPage()"
+            (pageChange)="onPageChange($event)">
+        </app-paginator>
+    </div>
+</div>

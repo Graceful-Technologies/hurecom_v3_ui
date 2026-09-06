@@ -1,0 +1,136 @@
+<div class="hr-page-content">
+    <div class="hr-card">
+        <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-row gap-4">
+                <div class="hr-avatar">
+                    {{global.getInitials(job()?.title)}}
+                </div>
+                <div class="flex flex-row items-center gap-4">
+                    <h2 class="title">{{job()?.title}}</h2>
+                    <span class="hr-badge" [ngClass]="job()?.status == 'OPEN' ? 'status-active' : 'status-inactive'">
+                        {{ job()?.statusValue }}
+                    </span>
+                </div>
+            </div>
+            <p-button label="Edit Job" icon="pi pi-pencil" (onClick)="openEditJobDialog()"></p-button>
+        </div>
+        <div class="flex flex-row gap-8 mt-4">
+
+            <div class="flex items-center gap-2 mt-1">
+                <svg class="table-icon" lucideTag></svg>
+                <span>{{ job()?.jobCode }}</span>
+            </div>
+
+            <div class="flex items-center gap-2 mt-1">
+                <svg class="table-icon" lucideBuilding2></svg>
+                <span>{{ job()?.clientName }}</span>
+            </div>
+
+            <div class="flex items-center gap-2 mt-1">
+                <svg class="table-icon" lucideMapPin></svg>
+                <span>{{ job()?.clientLocation }}</span>
+            </div>
+
+            <div class="flex items-center gap-2 mt-1">
+                <svg class="table-icon" lucideUser></svg>
+                <span>{{ job()?.clientSpocName }} (SPOC)</span>
+            </div>
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
+
+            <div class="hr-small-card flex items-center gap-5">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" lucideUsers></svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="row1">Open Positions</div>
+                    <div class="row2">{{ job()?.openPositions }}</div>
+                    <div class="row3">Positions</div>
+                </div>
+            </div>
+
+            <div class="hr-small-card flex items-center gap-5">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" lucideBriefcase></svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="row1">Experience</div>
+                    <div class="row2">{{ job()?.minExperience }} - {{job()?.maxExperience }} Years</div>
+                    <div class="row3">Required</div>
+                </div>
+            </div>
+
+            <div class="hr-small-card flex items-center gap-5">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" lucideWallet></svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="row1">Max CTC</div>
+                    <div class="row2">{{ job()?.maxCtc }} LPA</div>
+                    <div class="row3">Offered</div>
+                </div>
+            </div>
+
+            <div class="hr-small-card flex items-center gap-5">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" lucideMonitor></svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="row1">Work Mode</div>
+                    <div class="row2">{{ job()?.workModeValue }}</div>
+                    <div class="row3">{{ job()?.employmentTypeValue }}</div>
+                </div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <!-- SKILLS -->
+        <div class="mt-4">
+            <div class="text-[16px] font-[600] mb-3">
+                Skills Required
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+                @for (skill of job()?.skills; track skill) {
+                <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
+                }
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="mt-4">
+            <div class="text-[16px] font-[600] mb-3">
+                Job Description
+            </div>
+
+            <div class="job-description">
+                <div [innerHTML]="job()?.jobDescription"></div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <!-- AUDIT -->
+        <div class="mt-4">
+            <div class="text-[16px] font-[600] mb-3">
+                Audit Information
+            </div>
+
+            <div class="flex items-center gap-2">
+                <svg class="table-icon" lucideCalendar></svg>
+                <span class="w-32 hr-text-muted">Created On</span>
+                <span>{{ job()?.createdDate | date:'dd MMM yyyy' }}</span>
+            </div>
+
+            <div class="flex items-center gap-2 mt-3">
+                <svg class="table-icon" lucideUser></svg>
+                <span class="w-32 hr-text-muted">Created By</span>
+                <span>{{ job()?.createdUserName || '-' }}</span>
+            </div>
+        </div>
+    </div>
+</div>

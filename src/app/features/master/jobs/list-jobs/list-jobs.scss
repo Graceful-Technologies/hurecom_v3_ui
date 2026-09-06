@@ -1,0 +1,133 @@
+.job-row td {
+    border: 0;
+    padding: 14px;
+    background: transparent;
+}
+
+.job-card {
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+
+    padding: 22px;
+
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+
+    background: var(--surface-card);
+
+    transition: .25s;
+}
+
+.job-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.job-main {
+
+    flex: 2;
+}
+
+.job-section {
+
+    flex: 1;
+}
+
+.job-actions {
+
+    width: 130px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 18px;
+}
+
+.job-title {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: var(--text-color);
+}
+
+.job-meta {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 6px;
+
+    font-size: .875rem;
+
+    color: var(--text-color-secondary);
+}
+
+.section-title {
+
+    margin-bottom: 12px;
+
+    font-size: .75rem;
+
+    font-weight: 600;
+
+    color: var(--text-color-secondary);
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+}
+
+.info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+
+    color: var(--text-color);
+}
+
+.client-name {
+
+    font-weight: 600;
+
+    margin-bottom: 10px;
+}
+
+.job-skills {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.more-chip {
+
+    padding: 4px 10px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-size: .8rem;
+
+    font-weight: 600;
+}

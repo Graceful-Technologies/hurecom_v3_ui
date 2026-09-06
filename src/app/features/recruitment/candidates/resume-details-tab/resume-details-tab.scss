@@ -1,0 +1,29 @@
+.resume-card {
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: var(--surface-card);
+}
+
+.resume-empty {
+    border: 1px dashed var(--surface-border);
+    border-radius: 10px;
+
+    min-height: 80px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--text-color-secondary);
+}
+
+.resume-icon {
+    color: #ef4444;
+    font-size: 2rem;
+}

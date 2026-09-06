@@ -1,0 +1,959 @@
+/* =========================================================
+   HURECOM DESIGN SYSTEM
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Fonts
+   --------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "primeicons/primeicons.css";
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1e293b;
+    background: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   HURECOM DESIGN TOKENS
+   ========================================================= */
+
+:root {
+
+    /* Primary */
+    --hr-primary: #2563eb;
+    --hr-primary-hover: #1d4ed8;
+    --hr-primary-active: #1e40af;
+
+    --hr-primary-50: #eff6ff;
+    --hr-primary-100: #dbeafe;
+    --hr-primary-200: #bfdbfe;
+
+    /* Application background */
+    --hr-page-bg: #f8fafc;
+
+    /* Surfaces */
+    --hr-surface: #ffffff;
+    --hr-surface-subtle: #f8fafc;
+    --hr-surface-hover: #f1f5f9;
+
+    /* Text */
+    --hr-text: #0f172a;
+    --hr-text-primary: #1e293b;
+    --hr-text-secondary: #475569;
+    --hr-text-muted: #64748b;
+    --hr-text-subtle: #94a3b8;
+
+    /* Borders */
+    --hr-border: #e2e8f0;
+    --hr-border-subtle: #f1f5f9;
+    --hr-border-strong: #cbd5e1;
+
+    /* Semantic */
+    --hr-success: #15803d;
+    --hr-success-bg: #f0fdf4;
+    --hr-success-border: #bbf7d0;
+
+    --hr-warning: #b45309;
+    --hr-warning-bg: #fffbeb;
+    --hr-warning-border: #fde68a;
+
+    --hr-danger: #b91c1c;
+    --hr-danger-bg: #fef2f2;
+    --hr-danger-border: #fecaca;
+
+    --hr-info: #0369a1;
+    --hr-info-bg: #f0f9ff;
+    --hr-info-border: #bae6fd;
+
+    /* Radius */
+    --hr-radius-sm: 6px;
+    --hr-radius-md: 8px;
+    --hr-radius-lg: 10px;
+    --hr-radius-xl: 12px;
+
+    /* Shadows */
+    --hr-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.03);
+    --hr-shadow-dropdown:
+        0 10px 25px rgba(15, 23, 42, 0.08),
+        0 4px 10px rgba(15, 23, 42, 0.04);
+
+    /* Spacing */
+    --hr-space-1: 4px;
+    --hr-space-2: 8px;
+    --hr-space-3: 12px;
+    --hr-space-4: 16px;
+    --hr-space-5: 20px;
+    --hr-space-6: 24px;
+    --hr-space-8: 32px;
+    --hr-space-10: 40px;
+    --hr-space-12: 48px;
+
+    /* Typography */
+    --hr-page-title-size: 20px;
+    --hr-section-title-size: 15px;
+    --hr-body-size: 14px;
+    --hr-small-size: 13px;
+    --hr-caption-size: 12px;
+}
+
+
+/* =========================================================
+   GLOBAL TYPOGRAPHY
+   ========================================================= */
+
+.p-inputtext,
+.p-button,
+.p-button-label,
+.p-select-label,
+.p-select-option,
+.p-autocomplete-input,
+.p-autocomplete-input-chip input,
+.p-inputnumber-input,
+.p-textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.p-button {
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.p-inputtext,
+.p-textarea,
+.p-select,
+.p-multiselect,
+.p-autocomplete,
+.p-inputnumber {
+    border-radius: var(--hr-radius-md);
+}
+
+.p-inputtext:focus,
+.p-textarea:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.p-button {
+    border-radius: var(--hr-radius-md);
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        transform 100ms ease;
+}
+
+.p-button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.hr-page {
+    min-height: 100%;
+    background: var(--hr-page-bg);
+    color: var(--hr-text-primary);
+}
+
+.hr-page-content {
+    padding: 24px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.hr-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.hr-page-header-left {
+    min-width: 0;
+}
+
+.hr-page-title {
+    margin: 0;
+    color: var(--hr-text);
+    font-size: var(--hr-page-title-size);
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.hr-page-sub {
+    margin: 4px 0 0;
+    color: var(--hr-text-muted);
+    font-size: var(--hr-small-size);
+    line-height: 20px;
+}
+
+.hr-page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.hr-card {
+    background: var(--hr-surface);
+    border: 1px solid var(--hr-border);
+    border-radius: var(--hr-radius-lg);
+    padding: 20px;
+    box-shadow: var(--hr-shadow-card);
+}
+
+.hr-small-card {
+    background: var(--hr-surface);
+    border: 1px solid var(--hr-border);
+    border-radius: var(--hr-radius-lg);
+    padding: 16px;
+    box-shadow: var(--hr-shadow-card);
+}
+
+.hr-modal-card {
+    background: var(--hr-surface);
+    border: 1px solid var(--hr-border);
+    border-radius: var(--hr-radius-xl);
+    padding: 24px;
+}
+
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.hr-section {
+    margin-bottom: 24px;
+}
+
+.hr-section-title {
+    margin: 0;
+    color: var(--hr-text);
+    font-size: var(--hr-section-title-size);
+    line-height: 22px;
+    font-weight: 600;
+}
+
+.hr-section-subtitle {
+    margin-top: 4px;
+    color: var(--hr-text-muted);
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+   ========================================================= */
+
+.hr-table-card {
+    background: var(--hr-surface);
+    border: 1px solid var(--hr-border);
+    border-radius: var(--hr-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--hr-shadow-card);
+}
+
+
+/* =========================================================
+   TABLE TOOLBAR
+   ========================================================= */
+
+.hr-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    border-bottom: 1px solid var(--hr-border-subtle);
+}
+
+.hr-table-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.hr-table-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hr-search {
+    position: relative;
+    width: 320px;
+    max-width: 100%;
+}
+
+.hr-search .pi {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--hr-text-subtle);
+    z-index: 1;
+    font-size: 13px;
+}
+
+.hr-search .p-inputtext {
+    width: 100%;
+    padding-left: 36px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.hr-table {
+    width: 100%;
+}
+
+.hr-table .p-datatable-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.hr-table .p-datatable-thead>tr>th {
+    height: 44px;
+    padding: 0 16px;
+    background: var(--hr-surface-subtle);
+    border-bottom: 1px solid var(--hr-border);
+    color: var(--hr-text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.hr-table .p-datatable-tbody>tr {
+    background: #ffffff;
+    transition: background-color 120ms ease;
+}
+
+.hr-table .p-datatable-tbody>tr:hover {
+    background: #f8fafc;
+}
+
+.hr-table .p-datatable-tbody>tr>td {
+    padding: 16px;
+    border-bottom: 1px solid var(--hr-border-subtle);
+    color: var(--hr-text-primary);
+    vertical-align: middle;
+}
+
+.hr-table .p-datatable-tbody>tr:last-child>td {
+    border-bottom: 0;
+}
+
+
+/* =========================================================
+   TABLE JOB CELL
+   ========================================================= */
+
+.hr-job-cell {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 280px;
+}
+
+.hr-job-avatar {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--hr-primary-50);
+    border: 1px solid var(--hr-primary-100);
+    color: var(--hr-primary);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hr-job-content {
+    min-width: 0;
+}
+
+.hr-job-title {
+    color: var(--hr-text);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.hr-job-code {
+    margin-top: 2px;
+    color: var(--hr-text-muted);
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.hr-job-skills {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   SKILLS
+   ========================================================= */
+
+.hr-skill-chip {
+    display: inline-flex;
+    align-items: center;
+    max-width: 130px;
+    height: 24px;
+    padding: 0 8px;
+    border: 1px solid var(--hr-primary-100);
+    border-radius: 6px;
+    background: var(--hr-primary-50);
+    color: var(--hr-primary-active);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.hr-skill-chip .p-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hr-more-chip {
+    color: var(--hr-text-muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   HIRING CELL
+   ========================================================= */
+
+.hr-hiring-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.hr-hiring-openings {
+    color: var(--hr-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hr-hiring-meta {
+    color: var(--hr-text-muted);
+    font-size: 12px;
+    line-height: 18px;
+}
+
+
+/* =========================================================
+   PIPELINE
+   ========================================================= */
+
+.hr-pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(46px, 1fr));
+    gap: 8px;
+    min-width: 190px;
+}
+
+.hr-pipeline-item {
+    min-width: 0;
+}
+
+.hr-pipeline-count {
+    color: var(--hr-text);
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+}
+
+.hr-pipeline-label {
+    margin-top: 2px;
+    color: var(--hr-text-muted);
+    font-size: 10px;
+    line-height: 15px;
+    white-space: nowrap;
+}
+
+.hr-pipeline-dot {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    margin-right: 4px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.hr-pipeline-dot.applied {
+    background: #60a5fa;
+}
+
+.hr-pipeline-dot.interview {
+    background: #a78bfa;
+}
+
+.hr-pipeline-dot.offer {
+    background: #f59e0b;
+}
+
+.hr-pipeline-dot.joined {
+    background: #34d399;
+}
+
+
+/* =========================================================
+   EMPLOYMENT
+   ========================================================= */
+
+.hr-employment {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.hr-employment-type {
+    color: var(--hr-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.hr-employment-mode {
+    color: var(--hr-text-muted);
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CLIENT
+   ========================================================= */
+
+.hr-client {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 170px;
+}
+
+.hr-client-name {
+    color: var(--hr-text);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.hr-client-meta {
+    color: var(--hr-text-muted);
+    font-size: 12px;
+    line-height: 18px;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.hr-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.hr-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.hr-status-open {
+    color: var(--hr-success);
+}
+
+.hr-status-open .hr-status-dot {
+    background: #22c55e;
+}
+
+.hr-status-onhold {
+    color: var(--hr-warning);
+}
+
+.hr-status-onhold .hr-status-dot {
+    background: #f59e0b;
+}
+
+.hr-status-closed {
+    color: var(--hr-danger);
+}
+
+.hr-status-closed .hr-status-dot {
+    background: #ef4444;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.hr-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hr-action-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--hr-text-muted);
+    cursor: pointer;
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease;
+}
+
+.hr-action-btn:hover {
+    background: var(--hr-surface-hover);
+    border-color: var(--hr-border);
+    color: var(--hr-text-primary);
+}
+
+.hr-action-btn i {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   APPLY BUTTON
+   ========================================================= */
+
+.hr-apply-btn {
+    min-width: 72px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.hr-empty {
+    padding: 56px 20px;
+    text-align: center;
+    color: var(--hr-text-muted);
+}
+
+.hr-empty-icon {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: var(--hr-surface-subtle);
+    color: var(--hr-text-subtle);
+    font-size: 18px;
+}
+
+.hr-empty-title {
+    color: var(--hr-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hr-empty-sub {
+    margin-top: 4px;
+    color: var(--hr-text-muted);
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SMALL EMPTY
+   ========================================================= */
+
+.hr-small-empty {
+    padding: 24px;
+    text-align: center;
+    color: var(--hr-text-muted);
+}
+
+.hr-small-empty-title {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.hr-small-empty-sub {
+    margin-top: 2px;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.hr-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+}
+
+.status-active {
+    color: var(--hr-success);
+    background: var(--hr-success-bg);
+    border: 1px solid var(--hr-success-border);
+}
+
+.status-inactive {
+    color: var(--hr-danger);
+    background: var(--hr-danger-bg);
+    border: 1px solid var(--hr-danger-border);
+}
+
+.count {
+    background: var(--hr-primary-50);
+    color: var(--hr-primary);
+}
+
+
+/* =========================================================
+   TABS
+   ========================================================= */
+
+.p-tablist-active-bar {
+    display: none !important;
+}
+
+.p-tab {
+    transition:
+        color 150ms ease,
+        background-color 150ms ease;
+}
+
+
+/* =========================================================
+   ICONS
+   ========================================================= */
+
+.hr-icon {
+    color: #475569;
+    font-size: 20px;
+}
+
+.material-symbols-rounded {
+    color: #64748b;
+}
+
+.sidebar-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.action-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.table-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--hr-text-subtle);
+}
+
+.neutral-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--hr-text-subtle);
+}
+
+
+/* =========================================================
+   EDITOR
+   ========================================================= */
+
+.p-editor .p-editor-content .ql-editor {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   DIALOG FOOTER
+   ========================================================= */
+
+.hurecom-dialog-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: #ffffff;
+    border-top: 1px solid var(--hr-border-subtle);
+}
+
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
+
+.hr-ellipsis {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hr-muted {
+    color: var(--hr-text-subtle);
+}
+
+.hr-text-muted {
+    color: var(--hr-text-muted);
+}
+
+.hr-card-top {
+    background: var(--hr-primary);
+}
+
+.contrast-color {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .hr-page-content {
+        padding: 20px;
+    }
+
+    .hr-search {
+        width: 280px;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .hr-page-header {
+        flex-direction: column;
+    }
+
+    .hr-page-header-actions {
+        width: 100%;
+    }
+
+    .hr-table-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .hr-table-toolbar-left {
+        width: 100%;
+    }
+
+    .hr-table-toolbar-right {
+        justify-content: flex-end;
+    }
+
+    .hr-search {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .hr-page-content {
+        padding: 16px;
+    }
+
+    .hr-page-title {
+        font-size: 18px;
+    }
+
+    .hr-table-toolbar-left {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

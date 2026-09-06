@@ -1,0 +1,439 @@
+<div class="hr-page">
+
+    <div class="hr-page-content">
+
+        <!-- =====================================================
+             PAGE HEADER
+             ===================================================== -->
+
+        <div class="hr-page-header">
+
+            <div class="hr-page-header-left">
+
+                <h1 class="hr-page-title">
+                    Job Openings
+                </h1>
+
+                <p class="hr-page-sub">
+                    Manage open positions and track recruitment pipeline
+                </p>
+
+            </div>
+
+            <div class="hr-page-header-actions">
+
+                <p-button label="Create Job" icon="pi pi-plus">
+                </p-button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             JOB OPENINGS TABLE
+             ===================================================== -->
+
+        <div class="hr-table-card">
+
+
+            <!-- =================================================
+                 TABLE
+                 ================================================= -->
+
+            <p-table [value]="jobOpenings()" [scrollable]="true" [rowHover]="true" [tableStyle]="{
+                    'min-width': '1240px'
+                }" styleClass="hr-table">
+
+                <!-- =================================================
+                     HEADER
+                     ================================================= -->
+
+                <ng-template #header>
+
+                    <tr>
+
+                        <th style="width: 330px; min-width: 330px;">
+                            Job Opening
+                        </th>
+
+                        <th style="width: 175px; min-width: 175px;">
+                            Hiring
+                        </th>
+
+                        <th style="width: 215px; min-width: 215px;">
+                            Pipeline
+                        </th>
+
+                        <th style="width: 145px; min-width: 145px;">
+                            Employment
+                        </th>
+
+                        <th style="width: 230px; min-width: 230px;">
+                            Client
+                        </th>
+
+                        <th pFrozenColumn alignFrozen="right" style="
+                                width: 100px;
+                                min-width: 100px;
+                            ">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </ng-template>
+
+
+                <!-- =================================================
+                     BODY
+                     ================================================= -->
+
+                <ng-template #body let-job>
+
+                    <tr>
+
+                        <!-- =========================================
+                             JOB OPENING
+                             ========================================= -->
+
+                        <td>
+
+                            <div class="hr-job-cell">
+
+                                <!-- Job avatar -->
+
+                                <div class="hr-job-avatar">
+
+                                    {{ getInitials(job.title) }}
+
+                                </div>
+
+
+                                <!-- Job information -->
+
+                                <div class="hr-job-content">
+
+                                    <div class="hr-job-title">
+
+                                        {{ job.title }}
+
+                                    </div>
+
+
+                                    <div class="hr-job-code">
+
+                                        {{ job.jobCode }}
+
+                                        <span class="hr-status" [ngClass]="{
+                                                'hr-status-open':
+                                                    job.statusValue === 'OPEN',
+
+                                                'hr-status-onhold':
+                                                    job.statusValue === 'ON_HOLD',
+
+                                                'hr-status-closed':
+                                                    job.statusValue === 'CLOSED'
+                                            }">
+
+                                            <span class="hr-status-dot"></span>
+
+                                            {{ job.status }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Skills -->
+
+                                    <div class="hr-job-skills">
+
+                                        @for (
+                                        skill of getVisibleSkills(job.skills);
+                                        track skill
+                                        ) {
+
+                                        <span class="hr-skill-chip">
+
+                                            {{ skill }}
+
+                                        </span>
+
+                                        }
+
+                                        @if (
+                                        getRemainingSkillCount(job.skills) > 0
+                                        ) {
+
+                                        <span class="hr-more-chip" [pTooltip]="job.skills" tooltipPosition="top">
+
+                                            +{{ getRemainingSkillCount(job.skills) }}
+
+                                        </span>
+
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- =========================================
+                             HIRING
+                             ========================================= -->
+
+                        <td>
+
+                            <div class="hr-hiring-cell">
+
+                                <div class="hr-hiring-openings">
+
+                                    {{ job.openPositions }}
+
+                                    {{
+                                    job.openPositions === 1
+                                    ? 'Opening'
+                                    : 'Openings'
+                                    }}
+
+                                </div>
+
+
+                                <div class="hr-hiring-meta">
+
+                                    {{ job.minExperience }}–{{
+                                    job.maxExperience
+                                    }} yrs
+
+                                </div>
+
+
+                                <div class="hr-hiring-meta">
+
+                                    Max ₹{{ job.maxCtc }} LPA
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- =========================================
+                             PIPELINE
+                             ========================================= -->
+
+                        <td>
+
+                            <div class="hr-pipeline">
+
+                                <!-- Applied -->
+
+                                <div class="hr-pipeline-item">
+
+                                    <div class="hr-pipeline-count">
+
+                                        <span class="hr-pipeline-dot applied">
+                                        </span>
+
+                                        {{ job?.pipeline?.applied }}
+
+                                    </div>
+
+                                    <div class="hr-pipeline-label">
+                                        Applied
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Interview -->
+
+                                <div class="hr-pipeline-item">
+
+                                    <div class="hr-pipeline-count">
+
+                                        <span class="hr-pipeline-dot interview">
+                                        </span>
+
+                                        {{ job?.pipeline?.interview }}
+
+                                    </div>
+
+                                    <div class="hr-pipeline-label">
+                                        Interview
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Offer -->
+
+                                <div class="hr-pipeline-item">
+
+                                    <div class="hr-pipeline-count">
+
+                                        <span class="hr-pipeline-dot offer">
+                                        </span>
+
+                                        {{ job?.pipeline?.offer }}
+
+                                    </div>
+
+                                    <div class="hr-pipeline-label">
+                                        Offer
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Joined -->
+
+                                <div class="hr-pipeline-item">
+
+                                    <div class="hr-pipeline-count">
+
+                                        <span class="hr-pipeline-dot joined">
+                                        </span>
+
+                                        {{ job?.pipeline?.joined }}
+
+                                    </div>
+
+                                    <div class="hr-pipeline-label">
+                                        Joined
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- =========================================
+                             EMPLOYMENT
+                             ========================================= -->
+
+                        <td>
+
+                            <div class="hr-employment">
+
+                                <div class="hr-employment-type">
+
+                                    {{ job.employmentType }}
+
+                                </div>
+
+                                <div class="hr-employment-mode">
+
+                                    {{ job.workMode }}
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- =========================================
+                             CLIENT
+                             ========================================= -->
+
+                        <td>
+
+                            <div class="hr-client">
+
+                                <div class="hr-client-name">
+
+                                    {{ job.clientName }}
+
+                                </div>
+
+                                <div class="hr-client-meta">
+
+                                    <i class="pi pi-map-marker"></i>
+
+                                    {{ job.clientLocation }}
+
+                                </div>
+
+                                <div class="hr-client-meta">
+
+                                    <i class="pi pi-user"></i>
+
+                                    {{ job.clientSpocName }}
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- =========================================
+                             ACTION
+                             ========================================= -->
+
+                        <td pFrozenColumn alignFrozen="right">
+
+                            <p-button label="Apply" size="small" class="hr-apply-btn" (onClick)="applyForJob(job)">
+                            </p-button>
+
+                        </td>
+
+                    </tr>
+
+                </ng-template>
+
+
+                <!-- =================================================
+                     EMPTY STATE
+                     ================================================= -->
+
+                <ng-template #emptymessage>
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            <div class="hr-empty">
+
+                                <div class="hr-empty-icon">
+
+                                    <i class="pi pi-briefcase"></i>
+
+                                </div>
+
+                                <div class="hr-empty-title">
+
+                                    No job openings found
+
+                                </div>
+
+                                <div class="hr-empty-sub">
+
+                                    Try changing your search or filters.
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </ng-template>
+
+            </p-table>
+
+        </div>
+
+    </div>
+
+</div>

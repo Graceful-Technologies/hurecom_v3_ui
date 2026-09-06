@@ -1,0 +1,92 @@
+.title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+:host ::ng-deep .job-description {
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 8px;
+    white-space: pre-line;
+    word-break: break-word;
+    border: 1px solid var(--p-content-border-color);
+    padding: 1rem;
+
+    h1 {
+        font-size: 2rem;
+        margin: 1rem 0;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin: 0.875rem 0;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin: 0.75rem 0;
+    }
+
+    h4 {
+        font-size: 1.125rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    h6 {
+        font-size: 0.875rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    ul,
+    ol {
+        margin: 1rem 0;
+        padding-left: 1.5rem;
+    }
+
+    li {
+        list-style: decimal;
+    }
+}
+
+.card-icon-wrapper {
+    background: var(--p-primary-50);
+    color: var(--p-primary-600);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.card-primary {
+    background: var(--p-primary-50);
+    color: var(--p-primary-600);
+}
+
+.card-success {
+    background: var(--p-green-50);
+    color: var(--p-green-600);
+}
+
+.card-icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2px;
+}
+
+.row1 {
+    font-weight: 500;
+
+}
+
+.row2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.row3 {
+    color: var(--p-text-muted-color);
+}

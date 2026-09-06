@@ -1,0 +1,136 @@
+<div class="hr-card">
+    <div class="hr-page-header">
+        <div>
+            <h2 class="hr-page-title">Candidates</h2>
+            <p class="hr-page-sub">Manage Candidates</p>
+        </div>
+        <p-button label="Add Candidate" icon="pi pi-plus" (onClick)="openAddCandidateDialog()" />
+    </div>
+    <p-table [value]="candidates()" [tableStyle]="{'min-width': '1230px', 'table-layout': 'fixed'}" [scrollable]="true">
+
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col style="width:230px">
+                <col style="width:240px">
+                <col style="width:160px">
+                <col style="width:150px">
+                <col style="width:190px">
+                <col style="width:170px">
+                <col style="width:90px">
+            </colgroup>
+        </ng-template>
+
+        <ng-template #header>
+            <tr>
+                <th scope="col">CANDIDATE</th>
+                <th scope="col">CONTACT</th>
+                <th scope="col">LOCATION</th>
+                <th scope="col">EXPERIENCE</th>
+                <th scope="col">SKILLS</th>
+                <th scope="col">SALARY</th>
+                <th scope="col">ACTION</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-candidate>
+            <tr>
+                <td>
+                    <div class="hr-cell-strong">
+                        {{candidate.name}}
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <svg lucideBuilding2 class="table-icon"></svg>
+                        <span class="hr-ellipsis">{{candidate.currentCompany}}</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <svg lucideGraduationCap class="table-icon"></svg>
+                        {{candidate.qualification}}
+                    </div>
+                </td>
+                <td>
+                    <div class="flex items-center gap-2">
+                        <svg lucideMail class="table-icon"></svg>
+                        <div class="hr-ellipsis">{{candidate.email}}</div>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <svg lucidePhone class="table-icon"></svg>
+                        {{candidate.mobileNumber}}
+                    </div>
+                </td>
+                <td>
+                    @if(candidate.currentLocation){
+                    <div class="font-[600]">{{candidate.currentLocation}}</div>
+                    }@else{
+                    <div> - </div>
+                    }
+
+                    <div class="mt-2">
+                        <span class="hr-cell-muted"> Preferred:</span>
+                        {{candidate.preferredLocation}}
+                    </div>
+                </td>
+                <td>
+                    @if(candidate.totalExperience){
+                    <div class="font-[600]">{{candidate.totalExperience}} Years</div>
+                    }@else{
+                    <div> - </div>
+                    }
+
+                    <div class="mt-2">
+                        <span class="hr-cell-muted"> Relevant:</span>
+                        {{candidate.relevantExperience}} Years
+                    </div>
+                </td>
+                <td>
+                    <div class="card flex items-center gap-2 flex-wrap">
+                        @for (skill of getVisibleSkills(candidate.skills); track skill) {
+                        <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
+                        }
+
+                        @if (getRemainingSkillsCount(candidate.skills) > 0) {
+                        <span class="hr-more-chip">
+                            +{{ getRemainingSkillsCount(candidate.skills) }}
+                        </span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    @if(candidate.currentCtc){
+                    <div class="flex items-center font-[600]">
+                        <svg lucideIndianRupee class="rupee-icon"></svg>
+                        {{candidate.currentCtc}} LPA
+                    </div>
+                    }@else{
+                    <div>Not Disclosed</div>
+                    }
+                    <div class="hr-cell-muted flex items-center gap-1 mt-1">
+                        Expected:
+                        <span class="expectedCtc flex items-center"> <svg lucideIndianRupee class="rupee-icon"></svg>
+                            {{candidate.expectedCtc}} LPA </span>
+                    </div>
+                    <div class="hr-cell-muted mt-1">Notice: {{candidate.noticePeriod}}</div>
+                </td>
+                <td>
+                    <p-button icon="pi pi-pencil" variant="outlined" (onClick)="openEditCandidateDialog(candidate)"
+                        size="small">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8">
+                    <div class="hr-empty">
+                        <span class="material-symbols-rounded">
+                            work
+                        </span>
+                        <p class="hr-empty-title">No candidates found</p>
+                        <p class="hr-empty-sub">Try adjusting your search or filter</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <app-paginator [totalRecords]="totalRecords()" [rows]="rowsPerPage()" [page]="currentPage()"
+        (pageChange)="onPageChange($event)">
+    </app-paginator>
+</div>

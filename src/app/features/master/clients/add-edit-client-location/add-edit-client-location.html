@@ -1,0 +1,67 @@
+<form [formGroup]="clientLocationForm" class="flex flex-col gap-4" autocomplete="off">
+
+    <!-- Country -->
+    <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Country</label>
+        <p-select [options]="countries()" formControlName="countryId" optionLabel="name" optionValue="id"
+            placeholder="Select Country" />
+        @if (clientLocationForm.controls['countryId'].invalid && clientLocationForm.controls['countryId'].dirty) {
+        <small class="text-red-500">
+            Country is required
+        </small>
+        }
+    </div>
+
+    <!-- State -->
+    <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">State</label>
+        <p-select [options]="states()" formControlName="stateId" optionLabel="name" optionValue="id"
+            placeholder="Select State" />
+        @if (clientLocationForm.controls['stateId'].invalid && clientLocationForm.controls['stateId'].dirty) {
+        <small class="text-red-500">
+            State is required
+        </small>
+        }
+    </div>
+
+    <!-- City -->
+    <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">City</label>
+        <p-select [options]="cities()" formControlName="cityId" optionLabel="name" optionValue="id"
+            placeholder="Select State" />
+        @if (clientLocationForm.controls['cityId'].invalid && clientLocationForm.controls['cityId'].dirty) {
+        <small class="text-red-500">
+            City is required
+        </small>
+        }
+    </div>
+
+    <!-- Branch Name -->
+    <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Branch Name</label>
+        <input pInputText formControlName="branchName" />
+        @if (clientLocationForm.controls['branchName'].invalid && clientLocationForm.controls['branchName'].dirty) {
+        <small class="text-red-500">
+            Branch Name is required
+        </small>
+        }
+    </div>
+
+    <div class="flex items-center justify-between p-3 border rounded-lg">
+        <div class="flex flex-col">
+            <span class="text-sm font-medium">Active</span>
+            <span class="text-xs text-gray-500 mt-1">
+                Activate or deactivate this client location.
+            </span>
+        </div>
+        <p-toggleswitch formControlName="active"></p-toggleswitch>
+    </div>
+
+    <!-- Actions -->
+    <div class="hurecom-dialog-footer flex justify-end gap-2">
+        <p-button label="Cancel" variant="outlined" severity="secondary" (onClick)="closeDialog()" />
+        <button pButton [label]="isEditMode() ? 'Update' : 'Create'" (click)="saveClientLocation()">
+        </button>
+    </div>
+
+</form>

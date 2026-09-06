@@ -1,0 +1,21 @@
+.org-drawer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--hr-surface);
+}
+
+.org-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--hr-border-light);
+    flex-shrink: 0;
+}
+
+.org-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 24px;
+}

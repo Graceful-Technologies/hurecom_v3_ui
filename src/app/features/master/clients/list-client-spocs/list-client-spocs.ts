@@ -1,0 +1,106 @@
+import { ClientLocationResponse } from '@/app/core/models/master/clients/client-location-response';
+import { ClientResponse } from '@/app/core/models/master/clients/client-response';
+import { ClientSpocResponse } from '@/app/core/models/master/clients/client-spoc-response';
+import { ApiService } from '@/app/core/services/api-service';
+import { GlobalService } from '@/app/core/services/global-service';
+import { LoaderService } from '@/app/core/services/loader-service';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
+import { finalize } from 'rxjs';
+import { AddEditClientLocation } from '../add-edit-client-location/add-edit-client-location';
+import { AddEditClientSpoc } from '../add-edit-client-spoc/add-edit-client-spoc';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { LucideUser } from '@lucide/angular';
+
+@Component({
+  selector: 'app-list-client-spocs',
+  imports: [CommonModule,
+    FormsModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
+    LucideUser],
+  templateUrl: './list-client-spocs.html',
+  styleUrl: './list-client-spocs.scss',
+})
+export class ListClientSpocs {
+  private api = inject(ApiService);
+  private loader = inject(LoaderService);
+  public global = inject(GlobalService);
+  private dialog = inject(DialogService);
+
+  client = input<ClientResponse | null>(null);
+  clientSpocs = signal<ClientSpocResponse[]>([]);
+  refresh = output<void>();
+
+  constructor() {
+    effect(() => {
+
+      if (this.client()?.id) {
+        this.getClientSpocs(this.client()!.id);
+      }
+    });
+  }
+
+  getClientSpocs(clientId: number) {
+    const route = "/api/master/client-spocs";
+
+    const params = { clientId: clientId };
+
+    this.api.get<ClientSpocResponse[]>(route, params)
+      .pipe(finalize(() => this.loader.hide()))
+      .subscribe({
+        next: response => {
+          this.clientSpocs.set(response);
+        }
+      });
+  }
+
+  openAddClientSpocDialog() {
+    const ref = this.dialog.open(AddEditClientSpoc, {
+      header: 'Create Client Spoc',
+      data: {
+        client: this.client(),
+      },
+      modal: true,
+      closable: true,
+      dismissableMask: false,
+      width: '500px'
+    });
+
+    ref?.onClose.subscribe((response: any) => {
+      if (response) {
+        this.getClientSpocs(this.client()!.id);
+        this.refresh.emit();
+      }
+    });
+  }
+
+  openEditClientSpocDialog(clientSpoc: ClientSpocResponse) {
+    const ref = this.dialog.open(AddEditClientSpoc, {
+      header: 'Edit Client Spoc',
+      data: {
+        client: this.client(),
+        clientSpoc: clientSpoc
+      },
+      modal: true,
+      closable: true,
+      dismissableMask: false,
+      width: '500px'
+    });
+
+    ref?.onClose.subscribe((response: any) => {
+      if (response) {
+        this.getClientSpocs(this.client()!.id);
+      }
+    });
+  }
+}

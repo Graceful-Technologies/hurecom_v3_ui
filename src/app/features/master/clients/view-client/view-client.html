@@ -1,0 +1,65 @@
+@if(client()){
+<div class="hr-page">
+    <div class="hr-page-header">
+        <div class="hr-page-title">Client Details</div>
+    </div>
+
+    <div class="hr-card">
+        <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-row gap-4">
+                <div class="hr-avatar">
+                    {{global.getInitials(client()?.name)}}
+                </div>
+                <div class="flex flex-row items-center gap-4">
+                    <h2 class="hr-page-heading">{{client()?.name}}</h2>
+                    <span class="hr-badge" [ngClass]="client()?.active ? 'status-active' : 'status-inactive'">
+                        {{ client()?.active ? 'Active' : 'Inactive' }}
+                    </span>
+                </div>
+            </div>
+            <p-button label="Edit Client" icon="pi pi-pencil" (onClick)="openEditClientDialog()"></p-button>
+        </div>
+
+        <div class="flex flex-row gap-16 mt-7">
+
+            <div class="flex flex-col gap-1">
+                <span class="hr-text-muted text-xs font-medium">Active Locations</span>
+                <span>{{ client()?.locationCount }}</span>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <span class="hr-text-muted text-xs font-medium">Active Spocs</span>
+                <span>{{ client()?.spocCount }}</span>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <span class="hr-text-muted text-xs font-medium">Created On</span>
+                <span>{{ client()?.createdDate | date:'dd MMM yyyy' }}</span>
+            </div>
+
+
+            <div class="flex flex-col gap-1">
+                <span class="hr-text-muted text-xs font-medium">Created By</span>
+                <span>{{ client()?.createdUserName || '-'}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-2">
+    <p-tabs value="locations">
+        <p-tablist>
+            <p-tab value="locations">Client Locations</p-tab>
+            <p-tab value="spocs">Client Spocs</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+            <p-tabpanel value="locations">
+                <app-list-client-locations [client]="client()" (refresh)="getClient()"></app-list-client-locations>
+            </p-tabpanel>
+            <p-tabpanel value="spocs">
+                <app-list-client-spocs [client]="client()" (refresh)="getClient()"></app-list-client-spocs>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+</div>
+}

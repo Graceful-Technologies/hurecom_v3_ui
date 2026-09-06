@@ -1,0 +1,113 @@
+<div class="hr-card">
+    <div class="hr-page-header">
+        <div>
+            <h2 class="hr-page-title">Jobs</h2>
+            <p class="hr-page-sub">Manage Jobs</p>
+        </div>
+        <p-button label="Add Job" icon="pi pi-plus" (onClick)="openAddJobDialog()" />
+    </div>
+    <p-table [value]="jobs()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true">
+
+        <ng-template #colgroups>
+            <colgroup>
+                <col style="width: 25%" />
+                <col style="width: 25%" />
+                <col style="width: 25%" />
+                <col style="width: 15%" />
+                <col style="width: 10%" />
+            </colgroup>
+        </ng-template>
+
+        <ng-template #header>
+            <tr>
+                <th scope="col">Job</th>
+                <th scope="col">Hiring Details</th>
+                <th scope="col">Client Details</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-job>
+            <tr>
+                <td>
+                    <div class="hr-cell-strong">
+                        {{job.title}}
+                    </div>
+                    <div class="hr-cell-muted mt-2">
+                        {{job.jobCode}}
+                    </div>
+                    <div class="card flex items-center gap-2 flex-wrap mt-3">
+                        @for (skill of getVisibleSkills(job.skills); track skill) {
+                        <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
+                        }
+
+                        @if (getRemainingSkillsCount(job.skills) > 0) {
+                        <span class="hr-more-chip">
+                            +{{ getRemainingSkillsCount(job.skills) }}
+                        </span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary flex items-center gap-2">
+                        <svg class="table-icon" lucideBriefcase></svg>
+                        <span>{{ job.minExperience }} - {{job.maxExperience}} Years</span>
+                    </div>
+                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
+                        <svg class="table-icon" lucideUsers></svg>
+                        <span>{{job.openPositions}} Openings</span>
+                    </div>
+                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
+                        <svg class="table-icon" lucideIdCard></svg>
+                        <span>{{job.employmentTypeValue}} - {{job.workModeValue}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary flex items-center gap-2">
+                        <svg class="table-icon" lucideBuilding2></svg>
+                        <span>
+                            {{job.clientName}}
+                        </span>
+                    </div>
+                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
+                        <svg class="table-icon" lucideMapPin></svg>
+                        <span>
+                            {{job.clientLocation}}
+                        </span>
+                    </div>
+                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
+                        <svg class="table-icon" lucideUser></svg>
+                        <span>
+                            {{job.clientSpocName}}
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <span class="hr-badge" [ngClass]="job.status == 'OPEN' ? 'status-active' : 'status-inactive'">
+                        {{ job.statusValue }}
+                    </span>
+                </td>
+                <td>
+                    <p-button label="View" variant="outlined" [routerLink]="['view', job.id]" size="small">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8">
+                    <div class="hr-empty">
+                        <span class="material-symbols-rounded">
+                            work
+                        </span>
+                        <p class="hr-empty-title">No jobs found</p>
+                        <p class="hr-empty-sub">Try adjusting your search or filter</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <app-paginator [totalRecords]="totalRecords()" [rows]="rowsPerPage()" [page]="currentPage()"
+        (pageChange)="onPageChange($event)">
+    </app-paginator>
+</div>

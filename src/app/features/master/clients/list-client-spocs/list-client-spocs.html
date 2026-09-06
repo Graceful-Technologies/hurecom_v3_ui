@@ -1,0 +1,62 @@
+<div class="hr-card">
+    <div class="hr-table-header">
+        <div>
+            <h2 class="hr-table-title">Client Spocs</h2>
+        </div>
+        <p-button label="Add Spoc" icon="pi pi-plus" (onClick)="openAddClientSpocDialog()"></p-button>
+    </div>
+    <p-table [value]="clientSpocs()">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile Number</th>
+                <th>Landline Number</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-spoc>
+            <tr>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ spoc.name }}
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ spoc.email }}
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ spoc.mobileNumber }}
+                    </div>
+                </td>
+                <td>
+                    <div class="hr-cell-primary">
+                        {{ spoc.landlineNumber }}
+                    </div>
+                </td>
+                <td>
+                    <span class="hr-badge" [ngClass]="spoc.active ? 'status-active' : 'status-inactive'">
+                        {{ spoc.active ? 'Active' : 'Inactive' }}
+                    </span>
+                </td>
+                <td>
+                    <p-button label="Edit" variant="outlined" (onClick)="openEditClientSpocDialog(spoc)" size="small">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">
+                    <div class="hr-empty">
+                        <p class="hr-empty-title">No spocs found</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

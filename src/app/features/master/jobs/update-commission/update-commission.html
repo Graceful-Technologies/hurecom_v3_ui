@@ -1,0 +1,77 @@
+<form [formGroup]="commissionForm" class="flex flex-col gap-5" autocomplete="off">
+    <div class="grid grid-cols-1 gap-4">
+
+        <!-- Commission Type -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-sm font-medium text-gray-700">
+                Commission Type
+            </label>
+
+            <p-select appendTo="body" [options]="commissionTypes()" formControlName="commissionType" optionLabel="name"
+                optionValue="code" placeholder="Select Commission Type" class="w-full">
+            </p-select>
+
+            @if (commissionForm.controls['commissionType'].invalid &&
+            commissionForm.controls['commissionType'].dirty) {
+
+            <small class="text-red-500">
+                Commission Type is required
+            </small>
+            }
+        </div>
+
+        <!-- Commission Value -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-sm font-medium text-gray-700">
+                Commission Value
+            </label>
+
+            <p-inputNumber formControlName="commissionValue" mode="decimal" [minFractionDigits]="0"
+                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+
+            @if (commissionForm.controls['commissionValue'].invalid &&
+            commissionForm.controls['commissionValue'].dirty) {
+
+            <small class="text-red-500">
+                Commission Value is required
+            </small>
+            }
+        </div>
+
+        <!-- Guarantee Period -->
+        <div class="flex flex-col gap-1">
+
+            <label class="text-sm font-medium text-gray-700">
+                Guarantee Period (in days)
+            </label>
+
+            <p-inputNumber formControlName="guaranteePeriodDays" mode="decimal" [min]="0" [minFractionDigits]="0"
+                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
+            </p-inputNumber>
+
+            @if (commissionForm.controls['guaranteePeriodDays'].invalid &&
+            commissionForm.controls['guaranteePeriodDays'].dirty) {
+
+            <small class="text-red-500">
+                Guarantee Period is required
+            </small>
+            }
+        </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="hurecom-dialog-footer flex justify-end gap-2 pt-2">
+
+        <p-button type="button" label="Cancel" variant="outlined" (onClick)="closeDialog()">
+        </p-button>
+
+        <p-button type="button" label="Update" (onClick)="updateCommission()">
+        </p-button>
+
+    </div>
+
+</form>

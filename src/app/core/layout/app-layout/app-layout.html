@@ -1,0 +1,16 @@
+<div class="flex min-h-screen bg-[#f8fafc]">
+
+    <!-- Topbar -->
+    <app-header></app-header>
+
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main -->
+    <main class="p-6 min-w-0 w-full" style="margin-left: 220px; margin-top: 56px;">
+        <router-outlet></router-outlet>
+    </main>
+</div>
+
+<app-loader></app-loader>
+<p-toast position="top-right"></p-toast>

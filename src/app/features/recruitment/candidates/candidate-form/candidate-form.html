@@ -1,0 +1,19 @@
+<form [formGroup]="candidateForm" class="candidate-form">
+
+    <div class="grid grid-cols-3">
+        <div class="col-span-2">
+            <app-personal-details-tab [candidateForm]="candidateForm"></app-personal-details-tab>
+        </div>
+        <div class="col-span-3">
+            <app-professional-details-tab [candidateForm]="candidateForm"></app-professional-details-tab>
+        </div>
+    </div>
+
+    <div class="hurecom-dialog-footer flex items-center justify-end gap-2 mt-4">
+        <p-button type="button" label="Cancel" variant="outlined">
+        </p-button>
+
+        <p-button type="button" label="Save Candidate" (onClick)="saveCandidate()">
+        </p-button>
+    </div>
+</form>
