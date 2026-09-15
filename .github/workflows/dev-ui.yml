@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.DEV_SSH_USER }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEV_SSH_PORT }}
-          source: "dist/hurecom-ui/browser/*"
+          source: "dist/hurecom-ui/browser/"
           target: "${{ secrets.DEV_UI_DEPLOY_PATH }}"
 
       - name: Verify DEV UI
@@ -50,4 +50,4 @@ jobs:
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEV_SSH_PORT }}
           script: |
-            powershell.exe -NoProfile -NonInteractive -Command "Test-Path 'C:\nginx-1.29.8\html\hurecom-dev\index.html'"
+            powershell.exe -NoProfile -NonInteractive -Command "if (Test-Path 'C:\nginx-1.29.8\html\hurecom-dev\index.html') { Write-Host 'DEV UI index.html found' } else { Write-Error 'DEV UI index.html NOT found'; exit 1 }"
