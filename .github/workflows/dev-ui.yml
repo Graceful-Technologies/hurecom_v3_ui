@@ -1,0 +1,53 @@
+name: Hurecom UI DEV CI
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Use project npm version
+        run: npm install -g npm@10.9.2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular application
+        run: npm run build
+
+      - name: Show build output
+        run: ls -lah dist/hurecom-ui/browser
+
+      - name: Copy UI to DEV server
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SSH_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          source: "dist/hurecom-ui/browser/*"
+          target: "${{ secrets.DEV_UI_DEPLOY_PATH }}"
+
+      - name: Verify DEV UI
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SSH_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          script: |
+            powershell.exe -NoProfile -NonInteractive -Command "Test-Path 'C:\nginx-1.29.8\html\hurecom-dev\index.html'"
