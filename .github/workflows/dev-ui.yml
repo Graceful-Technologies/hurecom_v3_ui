@@ -32,7 +32,7 @@ jobs:
       - name: Show build output
         run: ls -lah dist/hurecom-ui/browser
 
-      - name: Copy UI to DEV server
+      - name: Copy UI build to staging
         uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.DEV_SERVER_HOST }}
@@ -40,7 +40,27 @@ jobs:
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEV_SSH_PORT }}
           source: "dist/hurecom-ui/browser/"
-          target: "${{ secrets.DEV_UI_DEPLOY_PATH }}"
+          target: "C:/Apps/hurecom-ui-dev"
+
+      - name: Copy deployment script
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SSH_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          source: "scripts/deploy-ui.ps1"
+          target: "C:/Apps/hurecom-ui-dev"
+
+      - name: Deploy UI to Nginx DEV
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SSH_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          script: |
+            powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "C:\Apps\hurecom-ui-dev\deploy-ui.ps1"
 
       - name: Verify DEV UI
         uses: appleboy/ssh-action@v1.2.2
