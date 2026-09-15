@@ -4,97 +4,108 @@ $ErrorActionPreference = "Stop"
 # HURECOM UI DEV DEPLOYMENT
 # =========================
 
-$stagePath  = "C:\Apps\hurecom-ui-dev"
-$deployPath = "C:\nginx-1.29.8\html\hurecom-dev"
-$browserPath = Join-Path $stagePath "dist\hurecom-ui\browser"
+$stagePath = "C:\Apps\hurecom-ui-dev"
+$zipPath = Join-Path $stagePath "hurecom-ui-dev.zip"
 
-$backupPath = "C:\Apps\hurecom-ui-dev\backup"
+$deployPath = "C:\nginx-1.29.8\html\hurecom-dev"
+
+$backupRoot = Join-Path $stagePath "backup"
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$currentBackup = Join-Path $backupPath "hurecom-ui-$timestamp"
+$backupPath = Join-Path $backupRoot "hurecom-ui-$timestamp"
+
+$tempExtractPath = Join-Path $stagePath "extract"
 
 Write-Host "========================================"
 Write-Host "HURECOM UI DEV DEPLOYMENT"
 Write-Host "========================================"
 
 # -------------------------
-# Check staging files
+# Check ZIP
 # -------------------------
 
-Write-Host "Checking staging directory..."
+Write-Host "Checking deployment ZIP..."
 
-if (-not (Test-Path $browserPath)) {
-    Write-Error "Angular browser build not found: $browserPath"
+if (-not (Test-Path $zipPath)) {
+    Write-Error "Deployment ZIP not found: $zipPath"
     exit 1
 }
 
-$indexFile = Join-Path $browserPath "index.html"
+Write-Host "Deployment ZIP found."
 
-if (-not (Test-Path $indexFile)) {
-    Write-Error "index.html not found in staging directory."
+# -------------------------
+# Prepare directories
+# -------------------------
+
+if (-not (Test-Path $backupRoot)) {
+    New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null
+}
+
+if (Test-Path $tempExtractPath) {
+    Remove-Item $tempExtractPath -Recurse -Force
+}
+
+New-Item -ItemType Directory -Path $tempExtractPath -Force | Out-Null
+
+if (-not (Test-Path $deployPath)) {
+    New-Item -ItemType Directory -Path $deployPath -Force | Out-Null
+}
+
+# -------------------------
+# Extract new UI
+# -------------------------
+
+Write-Host "Extracting new UI..."
+
+Expand-Archive `
+    -Path $zipPath `
+    -DestinationPath $tempExtractPath `
+    -Force
+
+$stagedIndex = Join-Path $tempExtractPath "index.html"
+
+if (-not (Test-Path $stagedIndex)) {
+    Write-Error "index.html not found in deployment ZIP."
     exit 1
 }
 
-Write-Host "Staging build found."
+Write-Host "New UI build verified."
 
 # -------------------------
-# Create backup directory
-# -------------------------
-
-if (-not (Test-Path $backupPath)) {
-    New-Item -ItemType Directory -Path $backupPath -Force | Out-Null
-}
-
-# -------------------------
-# Backup current DEV UI
+# Backup current UI
 # -------------------------
 
 Write-Host "Backing up current DEV UI..."
 
-if (Test-Path $deployPath) {
+$currentFiles = Get-ChildItem $deployPath -Force
 
-    $existingFiles = Get-ChildItem $deployPath -Force
+if ($currentFiles.Count -gt 0) {
 
-    if ($existingFiles.Count -gt 0) {
+    New-Item -ItemType Directory -Path $backupPath -Force | Out-Null
 
-        New-Item -ItemType Directory -Path $currentBackup -Force | Out-Null
+    Copy-Item `
+        -Path "$deployPath\*" `
+        -Destination $backupPath `
+        -Recurse `
+        -Force
 
-        Copy-Item `
-            -Path "$deployPath\*" `
-            -Destination $currentBackup `
-            -Recurse `
-            -Force
-
-        Write-Host "Backup created: $currentBackup"
-    }
-    else {
-        Write-Host "DEV UI directory is empty. No backup required."
-    }
-
+    Write-Host "Backup created:"
+    Write-Host $backupPath
 }
 else {
-
-    New-Item -ItemType Directory -Path $deployPath -Force | Out-Null
-
-    Write-Host "DEV UI directory created."
+    Write-Host "Current DEV UI is empty. No backup required."
 }
-
-# -------------------------
-# Clear current DEV UI
-# -------------------------
-
-Write-Host "Clearing current DEV UI..."
-
-Get-ChildItem $deployPath -Force |
-    Remove-Item -Recurse -Force
 
 # -------------------------
 # Deploy new UI
 # -------------------------
 
-Write-Host "Deploying new Angular UI..."
+Write-Host "Deploying new UI..."
+
+Get-ChildItem $deployPath -Force |
+    Remove-Item -Recurse -Force
 
 Copy-Item `
-    -Path "$browserPath\*" `
+    -Path "$tempExtractPath\*" `
     -Destination $deployPath `
     -Recurse `
     -Force
@@ -113,8 +124,11 @@ if (Test-Path $deployedIndex) {
     Write-Host "DEV UI DEPLOYMENT SUCCESSFUL"
     Write-Host "========================================"
 
-    Write-Host "index.html found:"
+    Write-Host "index.html:"
     Write-Host $deployedIndex
+
+    # Cleanup temporary files
+    Remove-Item $tempExtractPath -Recurse -Force
 
     exit 0
 }
@@ -125,16 +139,16 @@ if (Test-Path $deployedIndex) {
 
 Write-Host "========================================"
 Write-Host "DEPLOYMENT FAILED"
-Write-Host "Starting rollback..."
+Write-Host "STARTING ROLLBACK"
 Write-Host "========================================"
 
 Get-ChildItem $deployPath -Force |
     Remove-Item -Recurse -Force
 
-if (Test-Path $currentBackup) {
+if (Test-Path $backupPath) {
 
     Copy-Item `
-        -Path "$currentBackup\*" `
+        -Path "$backupPath\*" `
         -Destination $deployPath `
         -Recurse `
         -Force
@@ -142,17 +156,22 @@ if (Test-Path $currentBackup) {
     Write-Host "Previous DEV UI restored."
 }
 else {
-
-    Write-Host "No previous UI backup available."
+    Write-Host "No previous DEV UI backup available."
 }
 
-if (Test-Path $deployedIndex) {
+$rollbackIndex = Join-Path $deployPath "index.html"
+
+if (Test-Path $rollbackIndex) {
 
     Write-Host "Rollback verification successful."
-    exit 1
 }
 else {
 
     Write-Error "Rollback verification failed."
-    exit 1
 }
+
+if (Test-Path $tempExtractPath) {
+    Remove-Item $tempExtractPath -Recurse -Force
+}
+
+exit 1

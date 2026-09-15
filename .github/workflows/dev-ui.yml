@@ -29,17 +29,22 @@ jobs:
       - name: Build Angular application
         run: npm run build
 
-      - name: Show build output
-        run: ls -lah dist/hurecom-ui/browser
+      - name: Create UI deployment ZIP
+        run: |
+          cd dist/hurecom-ui/browser
+          zip -r ../../../hurecom-ui-dev.zip .
 
-      - name: Copy UI build to staging
+      - name: Show deployment ZIP
+        run: ls -lh hurecom-ui-dev.zip
+
+      - name: Copy UI deployment ZIP
         uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.DEV_SERVER_HOST }}
           username: ${{ secrets.DEV_SSH_USER }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEV_SSH_PORT }}
-          source: "dist/hurecom-ui/browser/"
+          source: "hurecom-ui-dev.zip"
           target: "C:/Apps/hurecom-ui-dev"
 
       - name: Copy deployment script
