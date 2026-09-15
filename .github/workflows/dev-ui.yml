@@ -65,8 +65,7 @@ jobs:
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEV_SSH_PORT }}
           script: |
-            powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "C:\Apps\hurecom-ui-dev\deploy-ui.ps1"
-
+            powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "C:\Apps\hurecom-ui-dev\scripts\deploy-ui.ps1"
       - name: Verify DEV UI
         uses: appleboy/ssh-action@v1.2.2
         with:
