@@ -12,6 +12,12 @@ import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { API_BASE_URL } from './core/tokens/api.token';
 
+const apiBaseUrl =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8080'
+    : `${window.location.protocol}//${window.location.host}`;
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -27,6 +33,6 @@ export const appConfig: ApplicationConfig = {
     }),
     DialogService,
     MessageService,
-    { provide: API_BASE_URL, useValue: 'http://localhost:8080' }
+    { provide: API_BASE_URL, useValue: apiBaseUrl }
   ]
 };
