@@ -35,6 +35,7 @@
             ]
           },
           "configurations": {
+            "local": {},
             "production": {
               "budgets": [
                 {
@@ -50,10 +51,16 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+           "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -61,6 +68,9 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
+            "local": {
+              "buildTarget": "hurecom-ui:build:local"
+            },
             "production": {
               "buildTarget": "hurecom-ui:build:production"
             },
@@ -68,7 +78,7 @@
               "buildTarget": "hurecom-ui:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "test": {
           "builder": "@angular/build:unit-test"
