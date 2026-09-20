@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ApiService } from './api-service';
 import { LoginResponse } from '../models/auth/login-response';
 import { LoginRequest } from '../models/auth/login-request';
-
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +11,18 @@ import { LoginRequest } from '../models/auth/login-request';
 export class AuthService {
   private api = inject(ApiService);
 
-
   login(payload: LoginRequest): Observable<LoginResponse> {
     return this.api.post<LoginResponse>("/api/auth/login", payload);
+  }
+
+  logout(): Observable<any> {
+    return this.api.post<any>("/api/auth/logout", {}).pipe(
+      tap(() => this.clearToken()),
+      catchError(() => {
+        this.clearToken();
+        return EMPTY;
+      })
+    );
   }
 
   setToken(token: string) {
@@ -24,7 +33,7 @@ export class AuthService {
     return localStorage.getItem("token");
   }
 
-  logout() {
+  clearToken() {
     localStorage.removeItem("token");
   }
 
