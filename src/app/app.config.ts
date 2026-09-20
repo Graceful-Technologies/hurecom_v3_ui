@@ -11,12 +11,9 @@ import { routes } from './app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { API_BASE_URL } from './core/tokens/api.token';
+import { environment } from '../environments/environment';
 
-const apiBaseUrl =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8080'
-    : `${window.location.protocol}//${window.location.host}`;
+const apiBaseUrl = environment.apiBaseUrl;
 
 export const appConfig: ApplicationConfig = {
   providers: [
