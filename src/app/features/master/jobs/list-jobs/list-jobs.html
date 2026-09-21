@@ -4,109 +4,75 @@
             <h2 class="hr-page-title">Jobs</h2>
             <p class="hr-page-sub">Manage Jobs</p>
         </div>
-        <p-button label="Add Job" icon="pi pi-plus" (onClick)="openAddJobDialog()" />
+        <button mat-flat-button color="primary" (click)="openAddJobDialog()">
+            <mat-icon>add</mat-icon>
+            Add Job
+        </button>
     </div>
-    <p-table [value]="jobs()" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true">
 
-        <ng-template #colgroups>
-            <colgroup>
-                <col style="width: 25%" />
-                <col style="width: 25%" />
-                <col style="width: 25%" />
-                <col style="width: 15%" />
-                <col style="width: 10%" />
-            </colgroup>
-        </ng-template>
+    <table mat-table [dataSource]="jobs()" class="w-full">
+        <ng-container matColumnDef="job">
+            <th mat-header-cell *matHeaderCellDef>Job</th>
+            <td mat-cell *matCellDef="let job">
+                <div class="hr-cell-strong">{{job.title}}</div>
+                <div class="hr-cell-muted mt-2">{{job.jobCode}}</div>
+                <div class="card flex items-center gap-2 flex-wrap mt-3">
+                    @for (skill of getVisibleSkills(job.skills); track skill) {
+                    <span class="hr-skill-chip">{{ skill }}</span>
+                    }
+                    @if (getRemainingSkillsCount(job.skills) > 0) {
+                    <span class="hr-more-chip">+{{ getRemainingSkillsCount(job.skills) }}</span>
+                    }
+                </div>
+            </td>
+        </ng-container>
 
-        <ng-template #header>
-            <tr>
-                <th scope="col">Job</th>
-                <th scope="col">Hiring Details</th>
-                <th scope="col">Client Details</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-job>
-            <tr>
-                <td>
-                    <div class="hr-cell-strong">
-                        {{job.title}}
-                    </div>
-                    <div class="hr-cell-muted mt-2">
-                        {{job.jobCode}}
-                    </div>
-                    <div class="card flex items-center gap-2 flex-wrap mt-3">
-                        @for (skill of getVisibleSkills(job.skills); track skill) {
-                        <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
-                        }
+        <ng-container matColumnDef="hiringDetails">
+            <th mat-header-cell *matHeaderCellDef>Hiring Details</th>
+            <td mat-cell *matCellDef="let job">
+                <div class="hr-cell-primary">{{ job.minExperience }} - {{job.maxExperience}} Years</div>
+                <div class="hr-cell-primary mt-2">{{job.openPositions}} Openings</div>
+                <div class="hr-cell-primary mt-2">{{job.employmentTypeValue}} - {{job.workModeValue}}</div>
+            </td>
+        </ng-container>
 
-                        @if (getRemainingSkillsCount(job.skills) > 0) {
-                        <span class="hr-more-chip">
-                            +{{ getRemainingSkillsCount(job.skills) }}
-                        </span>
-                        }
-                    </div>
-                </td>
-                <td>
-                    <div class="hr-cell-primary flex items-center gap-2">
-                        <svg class="table-icon" lucideBriefcase></svg>
-                        <span>{{ job.minExperience }} - {{job.maxExperience}} Years</span>
-                    </div>
-                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
-                        <svg class="table-icon" lucideUsers></svg>
-                        <span>{{job.openPositions}} Openings</span>
-                    </div>
-                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
-                        <svg class="table-icon" lucideIdCard></svg>
-                        <span>{{job.employmentTypeValue}} - {{job.workModeValue}}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="hr-cell-primary flex items-center gap-2">
-                        <svg class="table-icon" lucideBuilding2></svg>
-                        <span>
-                            {{job.clientName}}
-                        </span>
-                    </div>
-                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
-                        <svg class="table-icon" lucideMapPin></svg>
-                        <span>
-                            {{job.clientLocation}}
-                        </span>
-                    </div>
-                    <div class="hr-cell-primary flex items-center gap-2 mt-2">
-                        <svg class="table-icon" lucideUser></svg>
-                        <span>
-                            {{job.clientSpocName}}
-                        </span>
-                    </div>
-                </td>
-                <td>
-                    <span class="hr-badge" [ngClass]="job.status == 'OPEN' ? 'status-active' : 'status-inactive'">
-                        {{ job.statusValue }}
-                    </span>
-                </td>
-                <td>
-                    <p-button label="View" variant="outlined" [routerLink]="['view', job.id]" size="small">
-                    </p-button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-            <tr>
-                <td colspan="8">
-                    <div class="hr-empty">
-                        <span class="material-symbols-rounded">
-                            work
-                        </span>
-                        <p class="hr-empty-title">No jobs found</p>
-                        <p class="hr-empty-sub">Try adjusting your search or filter</p>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <ng-container matColumnDef="clientDetails">
+            <th mat-header-cell *matHeaderCellDef>Client Details</th>
+            <td mat-cell *matCellDef="let job">
+                <div class="hr-cell-primary">{{job.clientName}}</div>
+                <div class="hr-cell-primary mt-2">{{job.clientLocation}}</div>
+                <div class="hr-cell-primary mt-2">{{job.clientSpocName}}</div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let job">
+                <span class="hr-badge" [ngClass]="job.status == 'OPEN' ? 'status-active' : 'status-inactive'">
+                    {{ job.statusValue }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let job">
+                <button mat-stroked-button [routerLink]="['view', job.id]">View</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['job', 'hiringDetails', 'clientDetails', 'status', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['job', 'hiringDetails', 'clientDetails', 'status', 'actions'];"></tr>
+    </table>
+
+    @if (jobs().length === 0) {
+    <div class="hr-empty">
+        <mat-icon>work</mat-icon>
+        <p class="hr-empty-title">No jobs found</p>
+        <p class="hr-empty-sub">Try adjusting your search or filter</p>
+    </div>
+    }
+
     <app-paginator [totalRecords]="totalRecords()" [rows]="rowsPerPage()" [page]="currentPage()"
         (pageChange)="onPageChange($event)">
     </app-paginator>

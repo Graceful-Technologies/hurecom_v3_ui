@@ -4,8 +4,8 @@
     bottom: 0;
     z-index: 1000;
     width: 220px;
-    background: var(--p-primary-700);
-    border-right: 1px solid var(--p-content-border-color);
+    background: var(--hr-text);
+    border-right: 1px solid var(--hr-border);
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -29,8 +29,8 @@
             border-radius: 10px;
 
             background: var(--p-primary-50);
-            color: var(--p-primary-600);
-            border: 1px solid var(--p-primary-200);
+            color: var(--hr-primary);
+            border: 1px solid var(--hr-primary-200);
 
             font-size: 16px;
             font-weight: 500;
@@ -53,7 +53,7 @@
     }
 
     .sidebar-group-title {
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.68);
         padding-bottom: 0.5rem;
         padding-top: 0.5rem;
         font-size: 0.8rem;
@@ -80,7 +80,7 @@
 
         border-radius: 10px;
 
-        color: #fff;
+        color: rgba(255, 255, 255, 0.82);
 
         font-size: 14px;
         font-weight: 400;
@@ -92,26 +92,26 @@
 
         i {
             font-size: 13px;
-            color: var(--p-text-muted-color);
+            color: rgba(255, 255, 255, 0.68);
             transition: color 0.2s ease;
         }
 
         &:hover {
-            background: var(--p-primary-100);
-            color: var(--p-primary-700);
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
 
             i {
-                color: var(--p-primary-500);
+                color: #ffffff;
             }
         }
 
         &.active {
-            background: var(--p-primary-50);
-            color: var(--p-primary-700);
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
             font-weight: 600;
 
             i {
-                color: var(--p-primary-600);
+                color: #ffffff;
             }
         }
     }

@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 /* =========================================================
    HURECOM DESIGN SYSTEM
    ========================================================= */
@@ -7,12 +9,25 @@
    --------------------------------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "primeicons/primeicons.css";
+@import '@angular/cdk/overlay-prebuilt.css';
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$blue-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
 
 
 /* =========================================================
@@ -956,4 +971,21 @@ body {
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+mat-icon {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'liga';
 }

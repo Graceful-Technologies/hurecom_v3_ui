@@ -1,48 +1,36 @@
 <form [formGroup]="clientSpocForm" class="flex flex-col gap-4" autocomplete="off">
 
-    <!-- Name -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Name</label>
-        <input pInputText formControlName="name" />
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
         @if (clientSpocForm.controls['name'].invalid && clientSpocForm.controls['name'].dirty) {
-        <small class="text-red-500">
-            Name is required
-        </small>
+        <mat-error>Name is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Email -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Email</label>
-        <input pInputText formControlName="email" />
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
         @if (clientSpocForm.controls['email'].invalid && clientSpocForm.controls['email'].dirty) {
-        <small class="text-red-500">
-            Valid Email is required
-        </small>
+        <mat-error>Valid Email is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Mobile Number -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Mobile Number</label>
-        <input pInputText formControlName="mobileNumber" />
+    <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobileNumber" />
         @if (clientSpocForm.controls['mobileNumber'].invalid && clientSpocForm.controls['mobileNumber'].dirty) {
-        <small class="text-red-500">
-            Mobile Number is required
-        </small>
+        <mat-error>Mobile Number is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Landline Number -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Landline Number</label>
-        <input pInputText formControlName="landlineNumber" />
+    <mat-form-field appearance="outline">
+        <mat-label>Landline Number</mat-label>
+        <input matInput formControlName="landlineNumber" />
         @if (clientSpocForm.controls['landlineNumber'].invalid && clientSpocForm.controls['landlineNumber'].dirty) {
-        <small class="text-red-500">
-            Landline Number is required
-        </small>
+        <mat-error>Landline Number is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
     <div class="flex items-center justify-between p-3 border rounded-lg">
         <div class="flex flex-col">
@@ -51,13 +39,13 @@
                 Activate or deactivate this client spoc.
             </span>
         </div>
-        <p-toggleswitch formControlName="active"></p-toggleswitch>
+        <mat-checkbox formControlName="active">Active</mat-checkbox>
     </div>
 
-    <!-- Actions -->
     <div class="hurecom-dialog-footer flex justify-end gap-2">
-        <p-button label="Cancel" variant="outlined" severity="primary" (onClick)="closeDialog()" />
-        <button pButton [label]="isEditMode() ? 'Update' : 'Create'" (click)="saveClientSpoc()">
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="saveClientSpoc()">
+            {{ isEditMode() ? 'Update' : 'Create' }}
         </button>
     </div>
 

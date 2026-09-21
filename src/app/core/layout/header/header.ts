@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-header',
-  imports: [ButtonModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

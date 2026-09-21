@@ -4,36 +4,16 @@
             <h2 class="hr-page-title">Candidates</h2>
             <p class="hr-page-sub">Manage Candidates</p>
         </div>
-        <p-button label="Add Candidate" icon="pi pi-plus" (onClick)="openAddCandidateDialog()" />
+        <button mat-flat-button color="primary" (click)="openAddCandidateDialog()">
+            <mat-icon>add</mat-icon>
+            Add Candidate
+        </button>
     </div>
-    <p-table [value]="candidates()" [tableStyle]="{'min-width': '1230px', 'table-layout': 'fixed'}" [scrollable]="true">
-
-        <ng-template pTemplate="colgroup">
-            <colgroup>
-                <col style="width:230px">
-                <col style="width:240px">
-                <col style="width:160px">
-                <col style="width:150px">
-                <col style="width:190px">
-                <col style="width:170px">
-                <col style="width:90px">
-            </colgroup>
-        </ng-template>
-
-        <ng-template #header>
-            <tr>
-                <th scope="col">CANDIDATE</th>
-                <th scope="col">CONTACT</th>
-                <th scope="col">LOCATION</th>
-                <th scope="col">EXPERIENCE</th>
-                <th scope="col">SKILLS</th>
-                <th scope="col">SALARY</th>
-                <th scope="col">ACTION</th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-candidate>
-            <tr>
-                <td>
+    <div class="overflow-x-auto">
+    <table mat-table [dataSource]="candidates()" class="w-full">
+        <ng-container matColumnDef="candidate">
+            <th mat-header-cell *matHeaderCellDef>CANDIDATE</th>
+            <td mat-cell *matCellDef="let candidate">
                     <div class="hr-cell-strong">
                         {{candidate.name}}
                     </div>
@@ -45,8 +25,11 @@
                         <svg lucideGraduationCap class="table-icon"></svg>
                         {{candidate.qualification}}
                     </div>
-                </td>
-                <td>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="contact">
+            <th mat-header-cell *matHeaderCellDef>CONTACT</th>
+            <td mat-cell *matCellDef="let candidate">
                     <div class="flex items-center gap-2">
                         <svg lucideMail class="table-icon"></svg>
                         <div class="hr-ellipsis">{{candidate.email}}</div>
@@ -55,8 +38,11 @@
                         <svg lucidePhone class="table-icon"></svg>
                         {{candidate.mobileNumber}}
                     </div>
-                </td>
-                <td>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef>LOCATION</th>
+            <td mat-cell *matCellDef="let candidate">
                     @if(candidate.currentLocation){
                     <div class="font-[600]">{{candidate.currentLocation}}</div>
                     }@else{
@@ -67,8 +53,11 @@
                         <span class="hr-cell-muted"> Preferred:</span>
                         {{candidate.preferredLocation}}
                     </div>
-                </td>
-                <td>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="experience">
+            <th mat-header-cell *matHeaderCellDef>EXPERIENCE</th>
+            <td mat-cell *matCellDef="let candidate">
                     @if(candidate.totalExperience){
                     <div class="font-[600]">{{candidate.totalExperience}} Years</div>
                     }@else{
@@ -79,11 +68,14 @@
                         <span class="hr-cell-muted"> Relevant:</span>
                         {{candidate.relevantExperience}} Years
                     </div>
-                </td>
-                <td>
-                    <div class="card flex items-center gap-2 flex-wrap">
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="skills">
+            <th mat-header-cell *matHeaderCellDef>SKILLS</th>
+            <td mat-cell *matCellDef="let candidate">
+                    <div class="flex items-center gap-2 flex-wrap">
                         @for (skill of getVisibleSkills(candidate.skills); track skill) {
-                        <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
+                        <span class="hr-skill-chip">{{ skill }}</span>
                         }
 
                         @if (getRemainingSkillsCount(candidate.skills) > 0) {
@@ -92,8 +84,11 @@
                         </span>
                         }
                     </div>
-                </td>
-                <td>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="salary">
+            <th mat-header-cell *matHeaderCellDef>SALARY</th>
+            <td mat-cell *matCellDef="let candidate">
                     @if(candidate.currentCtc){
                     <div class="flex items-center font-[600]">
                         <svg lucideIndianRupee class="rupee-icon"></svg>
@@ -108,28 +103,27 @@
                             {{candidate.expectedCtc}} LPA </span>
                     </div>
                     <div class="hr-cell-muted mt-1">Notice: {{candidate.noticePeriod}}</div>
-                </td>
-                <td>
-                    <p-button icon="pi pi-pencil" variant="outlined" (onClick)="openEditCandidateDialog(candidate)"
-                        size="small">
-                    </p-button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-            <tr>
-                <td colspan="8">
-                    <div class="hr-empty">
-                        <span class="material-symbols-rounded">
-                            work
-                        </span>
-                        <p class="hr-empty-title">No candidates found</p>
-                        <p class="hr-empty-sub">Try adjusting your search or filter</p>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>ACTION</th>
+            <td mat-cell *matCellDef="let candidate">
+                <button mat-icon-button aria-label="Edit candidate" (click)="openEditCandidateDialog(candidate)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['candidate', 'contact', 'location', 'experience', 'skills', 'salary', 'action']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['candidate', 'contact', 'location', 'experience', 'skills', 'salary', 'action'];"></tr>
+    </table>
+    </div>
+    @if (!candidates().length) {
+    <div class="hr-empty">
+        <mat-icon>person_search</mat-icon>
+        <p class="hr-empty-title">No candidates found</p>
+        <p class="hr-empty-sub">Try adjusting your search or filter</p>
+    </div>
+    }
     <app-paginator [totalRecords]="totalRecords()" [rows]="rowsPerPage()" [page]="currentPage()"
         (pageChange)="onPageChange($event)">
     </app-paginator>

@@ -1,42 +1,46 @@
 import { inject, Injectable } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ToastService {
 
-    private messageService = inject(MessageService);
+    private snackBar = inject(MatSnackBar);
 
     success(detail: string, summary: string = 'Success') {
-        this.messageService.add({
-            severity: 'success',
-            summary,
-            detail
+        this.snackBar.open(detail, summary, {
+            duration: 3000,
+            panelClass: ['snackbar-success'],
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
         });
     }
 
     error(detail: string, summary: string = 'Error') {
-        this.messageService.add({
-            severity: 'error',
-            summary,
-            detail
+        this.snackBar.open(detail, summary, {
+            duration: 4000,
+            panelClass: ['snackbar-error'],
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
         });
     }
 
     warn(detail: string, summary: string = 'Warning') {
-        this.messageService.add({
-            severity: 'warn',
-            summary,
-            detail
+        this.snackBar.open(detail, summary, {
+            duration: 4000,
+            panelClass: ['snackbar-warn'],
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
         });
     }
 
     info(detail: string, summary: string = 'Info') {
-        this.messageService.add({
-            severity: 'info',
-            summary,
-            detail
+        this.snackBar.open(detail, summary, {
+            duration: 3000,
+            panelClass: ['snackbar-info'],
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
         });
     }
 }

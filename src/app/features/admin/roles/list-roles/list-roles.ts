@@ -4,13 +4,9 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 export interface Role {
   id: number;
@@ -31,12 +27,9 @@ export interface Role {
   imports: [
     CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    TooltipModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './list-roles.html',
   styleUrl: './list-roles.scss',
@@ -44,7 +37,6 @@ export interface Role {
 export class ListRoles {
   private api = inject(ApiService);
   public gs = inject(GlobalService);
-  private dialog = inject(DialogService);
 
   roles = signal<RoleResponse[]>([]);
 

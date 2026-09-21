@@ -6,16 +6,16 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { DatePipe } from '@angular/common';
 import { Component, effect, inject, input, output, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 import { AddTeamMembers } from '../add-team-members/add-team-members';
 import { ApiResponse } from '@/app/core/models/common/api-response';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-list-team-members',
-  imports: [TableModule, DatePipe, ButtonModule],
+  imports: [MatTableModule, DatePipe, MatButtonModule],
   templateUrl: './list-team-members.html',
   styleUrl: './list-team-members.scss',
 })
@@ -23,7 +23,7 @@ export class ListTeamMembers {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   team = input<TeamResponse | null>(null);
   teamMembers = signal<TeamMemberResponse[]>([]);
@@ -67,18 +67,15 @@ export class ListTeamMembers {
 
   openAddMemberDialog() {
     const ref = this.dialog.open(AddTeamMembers, {
-      header: 'Add Team Member',
+      width: '700px',
+      disableClose: true,
       data: {
         team: this.team(),
         availableUsers: this.availableUsers()
-      },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
-      width: '700px'
+      }
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.getTeamMembers(this.team()!.id);
         this.getAvailableUsers(this.team()!.id);

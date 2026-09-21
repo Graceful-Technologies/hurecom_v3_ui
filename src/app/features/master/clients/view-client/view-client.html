@@ -17,7 +17,10 @@
                     </span>
                 </div>
             </div>
-            <p-button label="Edit Client" icon="pi pi-pencil" (onClick)="openEditClientDialog()"></p-button>
+            <button mat-flat-button color="primary" (click)="openEditClientDialog()">
+                <mat-icon>edit</mat-icon>
+                Edit Client
+            </button>
         </div>
 
         <div class="flex flex-row gap-16 mt-7">
@@ -37,7 +40,6 @@
                 <span>{{ client()?.createdDate | date:'dd MMM yyyy' }}</span>
             </div>
 
-
             <div class="flex flex-col gap-1">
                 <span class="hr-text-muted text-xs font-medium">Created By</span>
                 <span>{{ client()?.createdUserName || '-'}}</span>
@@ -47,19 +49,13 @@
 </div>
 
 <div class="mt-2">
-    <p-tabs value="locations">
-        <p-tablist>
-            <p-tab value="locations">Client Locations</p-tab>
-            <p-tab value="spocs">Client Spocs</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-            <p-tabpanel value="locations">
-                <app-list-client-locations [client]="client()" (refresh)="getClient()"></app-list-client-locations>
-            </p-tabpanel>
-            <p-tabpanel value="spocs">
-                <app-list-client-spocs [client]="client()" (refresh)="getClient()"></app-list-client-spocs>
-            </p-tabpanel>
-        </p-tabpanels>
-    </p-tabs>
+    <mat-tab-group>
+        <mat-tab label="Client Locations">
+            <app-list-client-locations [client]="client()" (refresh)="getClient()"></app-list-client-locations>
+        </mat-tab>
+        <mat-tab label="Client Spocs">
+            <app-list-client-spocs [client]="client()" (refresh)="getClient()"></app-list-client-spocs>
+        </mat-tab>
+    </mat-tab-group>
 </div>
 }

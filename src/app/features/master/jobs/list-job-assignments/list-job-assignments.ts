@@ -2,9 +2,9 @@ import { ApiService } from '@/app/core/services/api-service';
 import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { Component, inject, input, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 import { AssignTeam } from '../assign-team/assign-team';
 import { JobResponse } from '@/app/core/models/recruitment/job-response';
 import { JobAssignmentResponse } from '@/app/core/models/recruitment/job-assignment-response';
@@ -12,13 +12,12 @@ import { TeamResponse } from '@/app/core/models/admin/team-response';
 import { finalize } from 'rxjs';
 import { ApiResponse } from '@/app/core/models/common/api-response';
 import { DatePipe } from '@angular/common';
-import { LucideX } from "@lucide/angular";
 
 @Component({
   selector: 'app-list-job-assignments',
   imports: [
-    TableModule,
-    ButtonModule,
+    MatTableModule,
+    MatButtonModule,
     DatePipe
 ],
   templateUrl: './list-job-assignments.html',
@@ -28,7 +27,7 @@ export class ListJobAssignments {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   job = input<JobResponse | null>(null);
   assignments = signal<JobAssignmentResponse[]>([]);
@@ -67,17 +66,12 @@ export class ListJobAssignments {
 
   openAssignTeamDialog() {
     const ref = this.dialog.open(AssignTeam, {
-      header: 'Assign Team',
+      width: '420px',
+      disableClose: true,
       data: { job: this.job(), availableTeams: this.availableTeams() },
-      modal: true,
-      closable: true,
-      draggable: false,
-      maximizable: false,
-      dismissableMask: false,
-      width: '400px'
     });
 
-    ref?.onClose.subscribe((response) => {
+    ref.afterClosed().subscribe((response) => {
       if (response) {
         this.getAssignments();
       }

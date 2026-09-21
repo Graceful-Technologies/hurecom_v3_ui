@@ -1,0 +1,23 @@
+<form [formGroup]="organizationForm" class="flex flex-col gap-4 p-2">
+	<mat-form-field appearance="outline">
+		<mat-label>Organization name</mat-label>
+		<input matInput formControlName="name" />
+		@if (organizationForm.controls['name'].invalid && organizationForm.controls['name'].touched) {
+		<mat-error>Name is required</mat-error>
+		}
+	</mat-form-field>
+
+	<mat-form-field appearance="outline">
+		<mat-label>Status</mat-label>
+		<mat-select formControlName="active">
+			@for (status of statuses(); track status.code) {
+			<mat-option [value]="status.code">{{ status.name }}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+
+	<div class="flex justify-end gap-2">
+		<button mat-stroked-button type="button" (click)="close()">Cancel</button>
+		<button mat-flat-button color="primary" type="button" (click)="createOrganization()">Save</button>
+	</div>
+</form>

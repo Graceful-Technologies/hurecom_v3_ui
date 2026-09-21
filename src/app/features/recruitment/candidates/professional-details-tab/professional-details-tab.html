@@ -13,7 +13,7 @@
                 Company Name
             </label>
 
-            <input pInputText formControlName="currentCompany" class="w-full" />
+            <input matInput formControlName="currentCompany" class="w-full" />
         </div>
 
         <!-- Designation -->
@@ -23,7 +23,7 @@
                 Designation
             </label>
 
-            <input pInputText formControlName="currentDesignation" class="w-full" />
+            <input matInput formControlName="currentDesignation" class="w-full" />
         </div>
 
         <!-- Qualification -->
@@ -33,7 +33,7 @@
                 Qualification
             </label>
 
-            <input pInputText formControlName="qualification" class="w-full" />
+            <input matInput formControlName="qualification" class="w-full" />
         </div>
     </div>
 
@@ -44,9 +44,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Total Experience
             </label>
-            <p-inputNumber formControlName="totalExperience" mode="decimal" [min]="0" [max]="50" [minFractionDigits]="0"
-                [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
+            <input matInput type="number" min="0" max="50" step="0.1" formControlName="totalExperience" class="w-full" />
         </div>
 
         <!-- Relevant Experience -->
@@ -55,9 +53,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Relevant Experience
             </label>
-            <p-inputNumber formControlName="relevantExperience" mode="decimal" [min]="0" [max]="50"
-                [minFractionDigits]="0" [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
+            <input matInput type="number" min="0" max="50" step="0.1" formControlName="relevantExperience" class="w-full" />
         </div>
 
         <!-- Current Location -->
@@ -67,7 +63,7 @@
                 Current Location
             </label>
 
-            <input pInputText formControlName="currentLocation" class="w-full" />
+            <input matInput formControlName="currentLocation" class="w-full" />
 
         </div>
 
@@ -78,7 +74,7 @@
                 Preferred Location
             </label>
 
-            <input pInputText formControlName="preferredLocation" class="w-full" />
+            <input matInput formControlName="preferredLocation" class="w-full" />
         </div>
     </div>
 
@@ -89,9 +85,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Current CTC
             </label>
-            <p-inputNumber formControlName="currentCtc" mode="decimal" [min]="0" [minFractionDigits]="0"
-                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
+            <input matInput type="number" min="0" step="0.01" formControlName="currentCtc" class="w-full" />
         </div>
 
         <!-- Expected CTC -->
@@ -100,9 +94,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Expected CTC
             </label>
-            <p-inputNumber formControlName="expectedCtc" mode="decimal" [min]="0" [minFractionDigits]="0"
-                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
+            <input matInput type="number" min="0" step="0.01" formControlName="expectedCtc" class="w-full" />
         </div>
     </div>
 
@@ -115,9 +107,14 @@
                 Work Mode Preference
             </label>
 
-            <p-select appendTo="body" [options]="genderList()" formControlName="gender" optionLabel="name"
-                optionValue="code" placeholder="Select Gender" class="w-full">
-            </p-select>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Work Mode Preference</mat-label>
+                <mat-select formControlName="workModePreference">
+                    @for (mode of genderList(); track mode.code) {
+                    <mat-option [value]="mode.code">{{ mode.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
         </div>
 
 
@@ -128,10 +125,7 @@
                 Skills <span class="text-red-500">*</span>
             </label>
 
-            <p-autocomplete inputId="chips-combined" formControlName="skills" multiple fluid [typeahead]="false"
-                [addOnBlur]="true" [addOnTab]="true" separator=","
-                placeholder="Use Tab, Enter, or Comma to add skills..." (keydown.enter)="$event.preventDefault()">
-            </p-autocomplete>
+            <input matInput formControlName="skills" placeholder="Enter skills separated by commas" />
             @if (candidateForm().controls['skills'].invalid &&
             candidateForm().controls['skills'].dirty) {
 
@@ -148,9 +142,7 @@
                 Notice Period
             </label>
 
-            <p-select appendTo="body" [options]="genderList()" formControlName="gender" optionLabel="name"
-                optionValue="code" placeholder="Select Gender" class="w-full">
-            </p-select>
+            <input matInput formControlName="noticePeriod" placeholder="Notice period" />
         </div>
 
         <!-- Last Working Day -->
@@ -159,7 +151,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Last Working Day
             </label>
-            <p-datepicker appendTo="body" formControlName="lastWorkingDay" />
+            <input matInput type="date" formControlName="lastWorkingDay" />
         </div>
 
         <!-- Remarks -->
@@ -168,7 +160,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Recruiter Notes
             </label>
-            <textarea rows="3" cols="30" pTextarea formControlName="remarks"></textarea>
+            <textarea matInput rows="3" formControlName="remarks"></textarea>
         </div>
     </div>
 </div>

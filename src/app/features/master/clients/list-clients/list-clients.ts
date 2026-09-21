@@ -6,14 +6,11 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
 import { AddEditClient } from '../add-edit-client/add-edit-client';
 
 @Component({
@@ -21,12 +18,9 @@ import { AddEditClient } from '../add-edit-client/add-edit-client';
   imports: [
     CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    TooltipModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
     RouterLink,
     Paginator
 ],
@@ -36,7 +30,7 @@ import { AddEditClient } from '../add-edit-client/add-edit-client';
 export class ListClients {
   private api = inject(ApiService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   clients = signal<ClientListResponse[]>([]);
   currentPage = signal(0);
@@ -67,14 +61,12 @@ export class ListClients {
 
   openAddClientDialog(): void {
     const ref = this.dialog.open(AddEditClient, {
-      header: "Create Client",
+      width: '450px',
+      disableClose: true,
       data: null,
-      modal: true,
-      closable: true,
-      width: '450px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchClients();
       }

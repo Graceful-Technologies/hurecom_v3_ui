@@ -1,45 +1,28 @@
 <div class="flex flex-col gap-5">
-
-    <p-fileUpload mode="basic" name="files" [multiple]="true" chooseLabel="Browse Files" [customUpload]="true"
-        (onSelect)="onFilesSelected($event)" accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="w-full">
-    </p-fileUpload>
+    <input type="file" multiple accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" (change)="onFilesSelected($event)" />
 
     <div class="border rounded-lg p-4 bg-surface-50">
-
-        <div class="font-semibold mb-3">
-            Selected Files
-        </div>
+        <div class="font-semibold mb-3">Selected Files</div>
 
         @if(selectedFiles.length === 0) {
-        <div class="text-color-secondary">
-            No files selected.
-        </div>
+        <div class="text-color-secondary">No files selected.</div>
         }
 
         @for(file of selectedFiles; track file.name) {
-
         <div class="flex justify-between items-center py-2 border-b last:border-0">
-
             <div class="flex flex-col">
                 <span>{{ file.name }}</span>
-                <small class="text-color-secondary">
-                    {{ formatSize(file.size) }}
-                </small>
+                <small class="text-color-secondary">{{ formatSize(file.size) }}</small>
             </div>
-
-            <p-button icon="pi pi-trash" severity="danger" variant="text" (click)="removeFile(file)">
-            </p-button>
-
+            <button mat-icon-button color="warn" (click)="removeFile(file)" aria-label="Remove file">
+                <mat-icon>delete</mat-icon>
+            </button>
         </div>
         }
     </div>
 
     <div class="hurecom-dialog-footer flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="close()">
-        </p-button>
-        <p-button label="Upload" [disabled]="selectedFiles.length === 0" (click)="upload()">
-        </p-button>
-
+        <button mat-stroked-button (click)="close()">Cancel</button>
+        <button mat-flat-button color="primary" [disabled]="selectedFiles.length === 0" (click)="upload()">Upload</button>
     </div>
-
 </div>

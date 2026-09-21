@@ -1,51 +1,48 @@
 <form [formGroup]="clientLocationForm" class="flex flex-col gap-4" autocomplete="off">
 
-    <!-- Country -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Country</label>
-        <p-select [options]="countries()" formControlName="countryId" optionLabel="name" optionValue="id"
-            placeholder="Select Country" />
+    <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <mat-select formControlName="countryId">
+            @for (country of countries(); track country.id) {
+            <mat-option [value]="country.id">{{ country.name }}</mat-option>
+            }
+        </mat-select>
         @if (clientLocationForm.controls['countryId'].invalid && clientLocationForm.controls['countryId'].dirty) {
-        <small class="text-red-500">
-            Country is required
-        </small>
+        <mat-error>Country is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- State -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">State</label>
-        <p-select [options]="states()" formControlName="stateId" optionLabel="name" optionValue="id"
-            placeholder="Select State" />
+    <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="stateId">
+            @for (state of states(); track state.id) {
+            <mat-option [value]="state.id">{{ state.name }}</mat-option>
+            }
+        </mat-select>
         @if (clientLocationForm.controls['stateId'].invalid && clientLocationForm.controls['stateId'].dirty) {
-        <small class="text-red-500">
-            State is required
-        </small>
+        <mat-error>State is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- City -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">City</label>
-        <p-select [options]="cities()" formControlName="cityId" optionLabel="name" optionValue="id"
-            placeholder="Select State" />
+    <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <mat-select formControlName="cityId">
+            @for (city of cities(); track city.id) {
+            <mat-option [value]="city.id">{{ city.name }}</mat-option>
+            }
+        </mat-select>
         @if (clientLocationForm.controls['cityId'].invalid && clientLocationForm.controls['cityId'].dirty) {
-        <small class="text-red-500">
-            City is required
-        </small>
+        <mat-error>City is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Branch Name -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Branch Name</label>
-        <input pInputText formControlName="branchName" />
+    <mat-form-field appearance="outline">
+        <mat-label>Branch Name</mat-label>
+        <input matInput formControlName="branchName" />
         @if (clientLocationForm.controls['branchName'].invalid && clientLocationForm.controls['branchName'].dirty) {
-        <small class="text-red-500">
-            Branch Name is required
-        </small>
+        <mat-error>Branch Name is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
     <div class="flex items-center justify-between p-3 border rounded-lg">
         <div class="flex flex-col">
@@ -54,13 +51,13 @@
                 Activate or deactivate this client location.
             </span>
         </div>
-        <p-toggleswitch formControlName="active"></p-toggleswitch>
+        <mat-checkbox formControlName="active">Active</mat-checkbox>
     </div>
 
-    <!-- Actions -->
     <div class="hurecom-dialog-footer flex justify-end gap-2">
-        <p-button label="Cancel" variant="outlined" severity="secondary" (onClick)="closeDialog()" />
-        <button pButton [label]="isEditMode() ? 'Update' : 'Create'" (click)="saveClientLocation()">
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="saveClientLocation()">
+            {{ isEditMode() ? 'Update' : 'Create' }}
         </button>
     </div>
 

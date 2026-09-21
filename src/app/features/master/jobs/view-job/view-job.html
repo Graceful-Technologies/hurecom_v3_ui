@@ -4,32 +4,19 @@
         <div class="hr-page-title">Job Details</div>
     </div>
 
-    <p-tabs value="details">
-        <p-tablist>
-            <p-tab value="details">Job Details</p-tab>
-            <p-tab value="attachments">Attachments</p-tab>
-            <p-tab value="assignments">Assignments</p-tab>
-            <p-tab value="commission">Commission Details</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-
-            <p-tabpanel value="details">
-                <app-view-job-details [job]="job()" (jobUpdated)="getJob()" />
-            </p-tabpanel>
-
-            <p-tabpanel value="attachments">
-                <app-list-job-attachments [job]="job()" />
-            </p-tabpanel>
-
-            <p-tabpanel value="assignments">
-                <app-list-job-assignments [job]="job()" />
-            </p-tabpanel>
-
-            <p-tabpanel value="commission">
-                <app-list-job-commissions [job]="job()" />
-            </p-tabpanel>
-
-        </p-tabpanels>
-    </p-tabs>
+    <mat-tab-group>
+        <mat-tab label="Job Details">
+            <app-view-job-details [job]="job()" (jobUpdated)="getJob()" />
+        </mat-tab>
+        <mat-tab label="Attachments">
+            <app-list-job-attachments [job]="job()" />
+        </mat-tab>
+        <mat-tab label="Assignments">
+            <app-list-job-assignments [job]="job()" />
+        </mat-tab>
+        <mat-tab label="Commission Details">
+            <app-list-job-commissions [job]="job()" />
+        </mat-tab>
+    </mat-tab-group>
 </div>
 }

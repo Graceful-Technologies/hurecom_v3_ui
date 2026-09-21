@@ -6,16 +6,11 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { LucideBriefcase, LucideIdCard, LucideUsers, LucideMonitor, LucideMap, LucideMapPin, LucideBuilding2, LucideUser } from '@lucide/angular';
-import { ButtonModule } from 'primeng/button';
-import { ChipModule } from 'primeng/chip';
-import { DialogService } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
 import { AddEditJob } from '../add-edit-job/add-edit-job';
 
 @Component({
@@ -23,22 +18,11 @@ import { AddEditJob } from '../add-edit-job/add-edit-job';
   imports: [
     CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    TooltipModule,
-    ChipModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
     RouterLink,
     Paginator,
-    LucideUsers,
-    LucideBriefcase,
-    LucideIdCard,
-    LucideMonitor,
-    LucideMapPin,
-    LucideBuilding2,
-    LucideUser
   ],
   templateUrl: './list-jobs.html',
   styleUrl: './list-jobs.scss',
@@ -46,7 +30,7 @@ import { AddEditJob } from '../add-edit-job/add-edit-job';
 export class ListJobs {
   private api = inject(ApiService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   jobs = signal<JobResponse[]>([]);
   currentPage = signal(0);
@@ -90,18 +74,13 @@ export class ListJobs {
 
   openAddJobDialog(): void {
     const ref = this.dialog.open(AddEditJob, {
-      header: "Create Job",
-      data: null,
-      modal: true,
-      closable: true,
       width: '85vw',
-      breakpoints: {
-        '1200px': '85vw',
-        '768px': '95vw'
-      }
+      maxWidth: '85vw',
+      disableClose: true,
+      data: null,
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchJobs();
       }

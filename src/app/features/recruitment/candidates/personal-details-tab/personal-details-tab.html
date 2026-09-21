@@ -14,7 +14,7 @@
                 Mobile Number <span class="text-red-500">*</span>
             </label>
 
-            <input pInputText formControlName="mobileNumber" class="w-full" />
+            <input matInput formControlName="mobileNumber" class="w-full" />
 
             @if (candidateForm().controls['mobileNumber'].invalid &&
             candidateForm().controls['mobileNumber'].dirty) {
@@ -32,7 +32,7 @@
                 Name <span class="text-red-500">*</span>
             </label>
 
-            <input pInputText formControlName="name" class="w-full" />
+            <input matInput formControlName="name" class="w-full" />
 
             @if (candidateForm().controls['name'].invalid &&
             candidateForm().controls['name'].dirty) {
@@ -50,7 +50,7 @@
                 Email <span class="text-red-500">*</span>
             </label>
 
-            <input pInputText formControlName="email" class="w-full" />
+            <input matInput formControlName="email" class="w-full" />
 
             @if (candidateForm().controls['email'].invalid &&
             candidateForm().controls['email'].dirty) {
@@ -68,9 +68,14 @@
                 Gender
             </label>
 
-            <p-select appendTo="body" [options]="genderList()" formControlName="gender" optionLabel="name"
-                optionValue="code" placeholder="Select Gender" class="w-full">
-            </p-select>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                    @for (gender of genderList(); track gender.code) {
+                    <mat-option [value]="gender.code">{{ gender.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
         </div>
 
         <!-- Alt Mobile Number -->
@@ -80,7 +85,7 @@
                 Alt Mobile Number
             </label>
 
-            <input pInputText formControlName="alternateMobileNumber" class="w-full" />
+            <input matInput formControlName="alternateMobileNumber" class="w-full" />
         </div>
 
         <!-- Date of Birth -->
@@ -89,7 +94,7 @@
             <label class="text-[13px] font-medium text-gray-700">
                 Date of Birth
             </label>
-            <p-datepicker formControlName="dateOfBirth" />
+            <input matInput type="date" formControlName="dateOfBirth" />
         </div>
 
         <!-- Source -->
@@ -99,7 +104,7 @@
                 Source <span class="text-red-500">*</span>
             </label>
 
-            <input pInputText formControlName="source" class="w-full" />
+            <input matInput formControlName="source" class="w-full" />
 
             @if (candidateForm().controls['source'].invalid &&
             candidateForm().controls['source'].dirty) {

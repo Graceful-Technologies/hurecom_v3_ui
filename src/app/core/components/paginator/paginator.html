@@ -5,9 +5,13 @@
 
         <span style="color: #334155;">Items per page:</span>
 
-        <!-- FIXED -->
-        <p-select [options]="rowsOptions()" [ngModel]="rows()" (onChange)="onRowsChange($event.value)">
-        </p-select>
+        <mat-form-field appearance="outline" class="page-select-field">
+            <mat-select [value]="rows()" (selectionChange)="onRowsChange($event.value)">
+                @for (option of rowsOptions(); track option) {
+                    <mat-option [value]="option">{{ option }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
         <span style="color: #334155;">
             {{ firstRecord() }} - {{ lastRecord() }} of {{ totalRecords() }}
@@ -18,12 +22,12 @@
     <!-- Right -->
     <div class="flex items-center gap-2">
 
-        <button class="hr-page-btn" [disabled]="!hasPrev()" (click)="prev()">
-            <i class="pi pi-angle-left"></i>
+        <button mat-icon-button class="hr-page-btn" [disabled]="!hasPrev()" (click)="prev()" aria-label="Previous page">
+            <mat-icon>chevron_left</mat-icon>
         </button>
 
-        <button class="hr-page-btn" [disabled]="!hasNext()" (click)="next()">
-            <i class="pi pi-angle-right"></i>
+        <button mat-icon-button class="hr-page-btn" [disabled]="!hasNext()" (click)="next()" aria-label="Next page">
+            <mat-icon>chevron_right</mat-icon>
         </button>
 
     </div>

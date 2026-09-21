@@ -8,29 +8,21 @@ import { LoaderService } from '@/app/core/services/loader-service';
 import { ToastService } from '@/app/core/services/toast-service';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ButtonModule } from 'primeng/button';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EditorModule } from 'primeng/editor';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-job',
   imports: [
     ReactiveFormsModule,
-    InputTextModule,
-    InputNumberModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    SelectModule,
-    ButtonModule,
-    AutoCompleteModule,
-    EditorModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
   templateUrl: './add-edit-job.html',
   styleUrl: './add-edit-job.scss',
@@ -39,8 +31,8 @@ export class AddEditJob {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private loader = inject(LoaderService);
-  private config = inject(DynamicDialogConfig);
-  private ref = inject(DynamicDialogRef);
+  private config = inject(MAT_DIALOG_DATA);
+  private ref = inject(MatDialogRef);
   private toast = inject(ToastService);
 
   jobForm!: FormGroup;
@@ -61,9 +53,9 @@ export class AddEditJob {
     this.getActiveClients();
     this.registerDropdownChanges();
 
-    if (this.config.data?.job) {
+    if (this.config?.job) {
       this.isEditMode.set(true);
-      this.patchJobForm(this.config.data.job);
+      this.patchJobForm(this.config.job);
     }
   }
 
@@ -194,7 +186,10 @@ export class AddEditJob {
 
     this.loader.show();
     const route = "/api/recruitment/jobs";
-    const payload = this.jobForm.value;
+    const payload = {
+      ...this.jobForm.value,
+      skills: this.parseSkills(this.jobForm.value.skills)
+    };
     const request = this.isEditMode()
       ? this.api.put<JobResponse>(`${route}/${payload.id}`, payload)
       : this.api.post<JobResponse>(route, payload);
@@ -206,6 +201,15 @@ export class AddEditJob {
           this.ref.close(true);
         },
       });
+  }
+
+  parseSkills(value: string | string[] | null): string[] {
+    if (Array.isArray(value)) return value;
+    if (!value) return [];
+    return value
+      .split(',')
+      .map(item => item.trim())
+      .filter(Boolean);
   }
 
   closeDialog() {

@@ -6,21 +6,21 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { AddEditUser } from '../add-edit-user/add-edit-user';
-
 
 @Component({
   selector: 'app-list-users',
   imports: [
-    CommonModule, FormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule, TooltipModule,
-    DynamicDialogModule, Paginator, ButtonModule
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    Paginator,
   ],
   templateUrl: './list-users.html',
   styleUrl: './list-users.scss',
@@ -28,7 +28,7 @@ import { AddEditUser } from '../add-edit-user/add-edit-user';
 export class ListUsers {
   private api = inject(ApiService);
   public gs = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   users = signal<UserResponse[]>([]);
   currentPage = signal(0);
@@ -61,14 +61,12 @@ export class ListUsers {
 
   openAddUser(): void {
     const ref = this.dialog.open(AddEditUser, {
-      header: "Create User",
-      data: null,
-      modal: true,
-      closable: true,
-      width: '450px'
+      width: '450px',
+      disableClose: true,
+      data: null
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchUsers();
       }
@@ -77,15 +75,12 @@ export class ListUsers {
 
   openEditUser(user: UserResponse) {
     const ref = this.dialog.open(AddEditUser, {
-      header: 'Edit User',
-      data: { user },
-      modal: true,
-      closable: true,
-      dismissableMask: true,
       width: '450px',
+      disableClose: true,
+      data: { user },
     });
 
-    ref?.onClose.subscribe((response) => {
+    ref.afterClosed().subscribe((response) => {
       if (response) {
         this.searchUsers();
       }

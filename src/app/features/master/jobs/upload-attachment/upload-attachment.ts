@@ -4,33 +4,36 @@ import { ApiService } from '@/app/core/services/api-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { ToastService } from '@/app/core/services/toast-service';
 import { Component, inject, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { FileUploadModule } from 'primeng/fileupload';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-upload-attachment',
-  imports: [FileUploadModule, ButtonModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './upload-attachment.html',
   styleUrl: './upload-attachment.scss',
 })
 export class UploadAttachment {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
-  private config = inject(DynamicDialogConfig);
-  private ref = inject(DynamicDialogRef);
+  private config = inject(MAT_DIALOG_DATA);
+  private ref = inject(MatDialogRef);
   private toast = inject(ToastService);
 
   job = signal<JobResponse | null>(null);
   selectedFiles: File[] = [];
 
   ngOnInit() {
-    this.job.set(this.config.data?.job);
+    this.job.set(this.config?.job);
   }
 
-  onFilesSelected(event: any) {
-    for (const file of event.files) {
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files || []);
+
+    for (const file of files) {
       const isDuplicate = this.selectedFiles.some(
         f =>
           f.name === file.name &&

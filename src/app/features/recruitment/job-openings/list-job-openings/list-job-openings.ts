@@ -6,35 +6,18 @@ import { ApiService } from '@/app/core/services/api-service';
 import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { LucideBriefcase, LucideBuilding2, LucideHash, LucideMapPin, LucideUser, LucideUsers, LucideWallet } from '@lucide/angular';
-import { ButtonModule } from 'primeng/button';
-import { ChipModule } from 'primeng/chip';
-import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-job-openings',
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    TableModule,
-    SelectModule,
-    ChipModule,
-    TooltipModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
     Paginator,
-    RouterLink,
-    LucideHash,
-    LucideBuilding2,
-    LucideMapPin,
-    LucideUser,
-    LucideUsers,
-    LucideBriefcase,
-    LucideWallet
   ],
   templateUrl: './list-job-openings.html',
   styleUrl: './list-job-openings.scss',
@@ -47,6 +30,7 @@ export class ListJobOpenings {
   currentPage = signal(0);
   totalRecords = signal(0);
   rowsPerPage = signal(10);
+  displayedColumns = ['job', 'hiring', 'pipeline', 'employment', 'client', 'action'];
 
   ngOnInit(): void {
     this.searchJobs();

@@ -1,223 +1,120 @@
 <form [formGroup]="jobForm" class="flex flex-col gap-5" autocomplete="off">
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Title -->
-        <div class="md:col-span-2 flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Title
-            </label>
-
-            <input pInputText formControlName="title" class="w-full" />
-
-            @if (jobForm.controls['title'].invalid &&
-            jobForm.controls['title'].dirty) {
-
-            <small class="text-red-500">
-                Title is required
-            </small>
+        <mat-form-field appearance="outline" class="md:col-span-2 w-full">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" />
+            @if (jobForm.controls['title'].invalid && jobForm.controls['title'].dirty) {
+            <mat-error>Title is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Status -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Status
-            </label>
-
-            <p-select appendTo="body" [options]="statusList()" formControlName="status" optionLabel="name"
-                optionValue="code" placeholder="Select Status" class="w-full">
-            </p-select>
-        </div>
-
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                @for (status of statusList(); track status.code) {
+                <mat-option [value]="status.code">{{ status.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Client</mat-label>
+            <mat-select formControlName="clientId">
+                @for (client of clients(); track client.id) {
+                <mat-option [value]="client.id">{{ client.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
-        <!-- Client -->
-        <div class="flex flex-col gap-1">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Client Location</mat-label>
+            <mat-select formControlName="clientLocationId">
+                @for (location of clientLocations(); track location.id) {
+                <mat-option [value]="location.id">{{ location.displayName }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
-            <label class="text-sm font-medium text-gray-700">
-                Client
-            </label>
-
-            <p-select appendTo="body" [options]="clients()" formControlName="clientId" optionLabel="name"
-                optionValue="id" placeholder="Select Client" class="w-full">
-            </p-select>
-        </div>
-
-        <!-- Client Location -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Client Location
-            </label>
-
-            <p-select appendTo="body" [options]="clientLocations()" formControlName="clientLocationId"
-                optionLabel="displayName" optionValue="id" placeholder="Select Location" class="w-full">
-            </p-select>
-        </div>
-
-        <!-- Client SPOC -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Client SPOC
-            </label>
-
-            <p-select appendTo="body" [options]="clientSpocs()" formControlName="clientSpocId" optionLabel="name"
-                optionValue="id" placeholder="Select SPOC" class="w-full">
-            </p-select>
-        </div>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Client SPOC</mat-label>
+            <mat-select formControlName="clientSpocId">
+                @for (spoc of clientSpocs(); track spoc.id) {
+                <mat-option [value]="spoc.id">{{ spoc.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        <!-- Open Positions -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Open Positions
-            </label>
-
-            <p-inputNumber formControlName="openPositions" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (jobForm.controls['openPositions'].invalid &&
-            jobForm.controls['openPositions'].dirty) {
-
-            <small class="text-red-500">
-                Open Position is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Open Positions</mat-label>
+            <input matInput type="number" formControlName="openPositions" />
+            @if (jobForm.controls['openPositions'].invalid && jobForm.controls['openPositions'].dirty) {
+            <mat-error>Open Position is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Work Mode -->
-        <div class="flex flex-col gap-1">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Work Mode</mat-label>
+            <mat-select formControlName="workMode">
+                @for (mode of workModes(); track mode.code) {
+                <mat-option [value]="mode.code">{{ mode.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
-            <label class="text-sm font-medium text-gray-700">
-                Work Mode
-            </label>
-
-            <p-select appendTo="body" [options]="workModes()" formControlName="workMode" optionLabel="name"
-                optionValue="code" placeholder="Select Work Mode" class="w-full">
-            </p-select>
-        </div>
-
-        <!-- Employment Type -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Employment Type
-            </label>
-
-            <p-select appendTo="body" [options]="employmentTypes()" formControlName="employmentType" optionLabel="name"
-                optionValue="code" placeholder="Select Employment Type" class="w-full">
-            </p-select>
-        </div>
-
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Employment Type</mat-label>
+            <mat-select formControlName="employmentType">
+                @for (type of employmentTypes(); track type.code) {
+                <mat-option [value]="type.code">{{ type.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        <!-- Min Experience -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Min Experience
-            </label>
-
-            <p-inputNumber formControlName="minExperience" mode="decimal" [min]="0" [max]="50" [minFractionDigits]="0"
-                [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (jobForm.controls['minExperience'].invalid &&
-            jobForm.controls['minExperience'].dirty) {
-
-            <small class="text-red-500">
-                Min Experience is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Min Experience</mat-label>
+            <input matInput type="number" formControlName="minExperience" />
+            @if (jobForm.controls['minExperience'].invalid && jobForm.controls['minExperience'].dirty) {
+            <mat-error>Min Experience is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Max Experience -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Max Experience
-            </label>
-
-            <p-inputNumber formControlName="maxExperience" mode="decimal" [min]="0" [max]="50" [minFractionDigits]="0"
-                [maxFractionDigits]="1" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (jobForm.controls['maxExperience'].invalid &&
-            jobForm.controls['maxExperience'].dirty) {
-
-            <small class="text-red-500">
-                Max Experience is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Max Experience</mat-label>
+            <input matInput type="number" formControlName="maxExperience" />
+            @if (jobForm.controls['maxExperience'].invalid && jobForm.controls['maxExperience'].dirty) {
+            <mat-error>Max Experience is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Maximum CTC -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Maximum CTC (LPA)
-            </label>
-
-            <p-inputNumber formControlName="maxCtc" mode="decimal" [min]="0" [minFractionDigits]="0"
-                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (jobForm.controls['maxCtc'].invalid &&
-            jobForm.controls['maxCtc'].dirty) {
-
-            <small class="text-red-500">
-                Maximum CTC is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Maximum CTC (LPA)</mat-label>
+            <input matInput type="number" formControlName="maxCtc" />
+            @if (jobForm.controls['maxCtc'].invalid && jobForm.controls['maxCtc'].dirty) {
+            <mat-error>Maximum CTC is required</mat-error>
             }
-        </div>
-
+        </mat-form-field>
     </div>
 
-    <!-- Skills -->
-    <div class="flex flex-col gap-1">
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Skills</mat-label>
+        <input matInput formControlName="skills" placeholder="Angular, Java, SQL" />
+    </mat-form-field>
 
-        <label class="text-sm font-medium text-gray-700">
-            Skills
-        </label>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Job Description</mat-label>
+        <textarea matInput rows="8" formControlName="jobDescription"></textarea>
+    </mat-form-field>
 
-        <p-autocomplete inputId="chips-combined" formControlName="skills" multiple fluid [typeahead]="false"
-            [addOnBlur]="true" [addOnTab]="true" separator="," placeholder="Use Tab, Enter, or Comma to add skills..."
-            (keydown.enter)="$event.preventDefault()">
-        </p-autocomplete>
-
-    </div>
-
-    <!-- Job Description -->
-    <div class="flex flex-col gap-1">
-
-        <label class="text-sm font-medium text-gray-700">
-            Job Description
-        </label>
-
-        <p-editor formControlName="jobDescription" [style]="{ height: '220px' }">
-        </p-editor>
-
-    </div>
-
-    <!-- Actions -->
     <div class="hurecom-dialog-footer flex justify-end gap-2 pt-2">
-
-        <p-button type="button" label="Cancel" variant="outlined" (onClick)="closeDialog()">
-        </p-button>
-
-        <p-button type="button" [label]="isEditMode() ? 'Update Job' : 'Create Job'" (onClick)="saveJob()">
-        </p-button>
-
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="saveJob()">
+            {{ isEditMode() ? 'Update Job' : 'Create Job' }}
+        </button>
     </div>
-
 </form>

@@ -1,10 +1,10 @@
 import { Component, model, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { FileUploadModule } from 'primeng/fileupload';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-resume-details-tab',
-  imports: [FileUploadModule, ButtonModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './resume-details-tab.html',
   styleUrl: './resume-details-tab.scss',
 })

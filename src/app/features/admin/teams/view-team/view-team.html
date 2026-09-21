@@ -16,7 +16,10 @@
                     </span>
                 </div>
             </div>
-            <p-button label="Edit Team" icon="pi pi-pencil" (onClick)="openEditTeamDialog()"></p-button>
+            <button mat-flat-button color="primary" (click)="openEditTeamDialog()">
+                <mat-icon>edit</mat-icon>
+                Edit Team
+            </button>
         </div>
 
         <div class="flex flex-row gap-16 mt-7">
@@ -33,7 +36,6 @@
                 <span class="hr-text-muted text-xs font-medium">Created On</span>
                 <span>{{ team()?.createdDate | date:'dd MMM yyyy' }}</span>
             </div>
-
 
             <div class="flex flex-col gap-1">
                 <span class="hr-text-muted text-xs font-medium">Created By</span>
