@@ -1,59 +1,52 @@
 <form [formGroup]="userForm" class="flex flex-col gap-4" autocomplete="off">
 
-    <!-- Name -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Name</label>
-        <input pInputText formControlName="name" />
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
         @if (userForm.controls['name'].invalid && userForm.controls['name'].dirty) {
-        <small class="text-red-500">
-            Name is required
-        </small>
+            <mat-error>Name is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Email -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Email</label>
-        <input pInputText formControlName="email" />
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
         @if (userForm.controls['email'].invalid && userForm.controls['email'].dirty) {
-        <small class="text-red-500">
-            Enter a valid email
-        </small>
+            <mat-error>Enter a valid email</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Mobile -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Mobile Number</label>
-        <input pInputText formControlName="mobileNumber" />
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobileNumber" />
         @if (userForm.controls['mobileNumber'].invalid && userForm.controls['mobileNumber'].dirty) {
-        <small class="text-red-500">
-            Mobile number is required
-        </small>
+            <mat-error>Mobile number is required</mat-error>
         }
-    </div>
+    </mat-form-field>
 
-    <!-- Organization -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Organization</label>
-        <p-select appendTo="body" [options]="organizations()" formControlName="organizationId" optionLabel="name"
-            optionValue="id" placeholder="Select an Organization" class="w-full" />
-    </div>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Organization</mat-label>
+        <mat-select formControlName="organizationId" [compareWith]="(a, b) => a === b">
+            @for (organization of organizations(); track organization.id) {
+                <mat-option [value]="organization.id">{{ organization.name }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
 
-    <!-- Role -->
-    <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Role</label>
-        <p-select appendTo="body" [options]="roles()" formControlName="roleId" optionLabel="description"
-            optionValue="id" placeholder="Select a Role" class="w-full" />
-    </div>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="roleId" [compareWith]="(a, b) => a === b">
+            @for (role of roles(); track role.id) {
+                <mat-option [value]="role.id">{{ role.description }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
 
-    <!-- Actions -->
     <div class="hurecom-dialog-footer flex justify-end gap-2">
-        <p-button type="button" label="Cancel" variant="outlined" (onClick)="closeDialog()">
-        </p-button>
-
-        <p-button type="button" [label]="isEditMode() ? 'Update' : 'Create'" (onClick)="saveUser()">
-        </p-button>
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="saveUser()">
+            {{ isEditMode() ? 'Update' : 'Create' }}
+        </button>
     </div>
 
 </form>

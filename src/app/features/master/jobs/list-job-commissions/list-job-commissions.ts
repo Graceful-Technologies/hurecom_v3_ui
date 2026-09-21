@@ -4,25 +4,22 @@ import { ApiService } from '@/app/core/services/api-service';
 import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { Component, inject, input, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 import { UpdateCommission } from '../update-commission/update-commission';
 import { MasterDataResponse } from '@/app/core/models/common/master-data-response';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { finalize } from 'rxjs';
-import { LucideIndianRupee, LucidePercent } from '@lucide/angular';
 
 @Component({
   selector: 'app-list-job-commissions',
   imports: [
     CommonModule,
-    TableModule,
-    ButtonModule,
+    MatTableModule,
+    MatButtonModule,
     DecimalPipe,
     DatePipe,
-    LucidePercent,
-    LucideIndianRupee
   ],
   templateUrl: './list-job-commissions.html',
   styleUrl: './list-job-commissions.scss',
@@ -31,7 +28,7 @@ export class ListJobCommissions {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   job = input<JobResponse | null>(null);
   commissions = signal<JobCommissionResponse[]>([]);
@@ -72,17 +69,12 @@ export class ListJobCommissions {
 
   openUpdateCommissionDialog() {
     const ref = this.dialog.open(UpdateCommission, {
-      header: 'Update Commission',
+      width: '420px',
+      disableClose: true,
       data: { job: this.job(), commissionTypes: this.commissionTypes() },
-      modal: true,
-      closable: true,
-      draggable: false,
-      maximizable: false,
-      dismissableMask: false,
-      width: '400px'
     });
 
-    ref?.onClose.subscribe((response) => {
+    ref.afterClosed().subscribe((response) => {
       if (response) {
         this.getCommissions();
       }

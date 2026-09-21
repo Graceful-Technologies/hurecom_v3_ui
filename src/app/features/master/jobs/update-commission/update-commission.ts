@@ -6,21 +6,21 @@ import { LoaderService } from '@/app/core/services/loader-service';
 import { ToastService } from '@/app/core/services/toast-service';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-update-commission',
   imports: [
     ReactiveFormsModule,
-    InputTextModule,
-    InputNumberModule,
-    SelectModule,
-    ButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
   templateUrl: './update-commission.html',
   styleUrl: './update-commission.scss',
@@ -29,8 +29,8 @@ export class UpdateCommission {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private loader = inject(LoaderService);
-  private config = inject(DynamicDialogConfig);
-  private ref = inject(DynamicDialogRef);
+  private config = inject(MAT_DIALOG_DATA);
+  private ref = inject(MatDialogRef);
   private toast = inject(ToastService);
 
   commissionForm!: FormGroup;
@@ -38,8 +38,8 @@ export class UpdateCommission {
   commissionTypes = signal<MasterDataResponse[]>([]);
 
   ngOnInit() {
-    this.job.set(this.config.data.job);
-    this.commissionTypes.set(this.config.data.commissionTypes);
+    this.job.set(this.config?.job);
+    this.commissionTypes.set(this.config?.commissionTypes || []);
     this.createCommissionForm();
   }
 

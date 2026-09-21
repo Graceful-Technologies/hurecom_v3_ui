@@ -1,12 +1,10 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { HurecomPreset } from '@/hurecom-preset';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MessageService } from 'primeng/api';
-import { providePrimeNG } from 'primeng/config';
-import { DialogService } from 'primeng/dynamicdialog';
+import { importProvidersFrom } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { routes } from './app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
@@ -23,13 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([authInterceptor, apiInterceptor])
     ),
-    providePrimeNG({
-      theme: {
-        preset: HurecomPreset,
-      }
-    }),
-    DialogService,
-    MessageService,
+    importProvidersFrom(MatSnackBarModule, MatDialogModule),
     { provide: API_BASE_URL, useValue: apiBaseUrl }
   ]
 };

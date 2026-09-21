@@ -5,29 +5,22 @@ import { ApiService } from '@/app/core/services/api-service';
 import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { Component, effect, inject, input, output, signal } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
 import { finalize } from 'rxjs';
-import { AddEditClientLocation } from '../add-edit-client-location/add-edit-client-location';
 import { AddEditClientSpoc } from '../add-edit-client-spoc/add-edit-client-spoc';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { LucideUser } from '@lucide/angular';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-client-spocs',
   imports: [CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    LucideUser],
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule],
   templateUrl: './list-client-spocs.html',
   styleUrl: './list-client-spocs.scss',
 })
@@ -35,7 +28,7 @@ export class ListClientSpocs {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   client = input<ClientResponse | null>(null);
   clientSpocs = signal<ClientSpocResponse[]>([]);
@@ -66,17 +59,14 @@ export class ListClientSpocs {
 
   openAddClientSpocDialog() {
     const ref = this.dialog.open(AddEditClientSpoc, {
-      header: 'Create Client Spoc',
+      width: '500px',
+      disableClose: true,
       data: {
         client: this.client(),
       },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
-      width: '500px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.getClientSpocs(this.client()!.id);
         this.refresh.emit();
@@ -86,18 +76,15 @@ export class ListClientSpocs {
 
   openEditClientSpocDialog(clientSpoc: ClientSpocResponse) {
     const ref = this.dialog.open(AddEditClientSpoc, {
-      header: 'Edit Client Spoc',
+      width: '500px',
+      disableClose: true,
       data: {
         client: this.client(),
         clientSpoc: clientSpoc
       },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
-      width: '500px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.getClientSpocs(this.client()!.id);
       }

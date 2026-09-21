@@ -1,26 +1,23 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TabsModule } from 'primeng/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ResumeDetailsTab } from '../resume-details-tab/resume-details-tab';
 import { PersonalDetailsTab } from '../personal-details-tab/personal-details-tab';
 import { ProfessionalDetailsTab } from '../professional-details-tab/professional-details-tab';
 import { CandidateResponse } from '@/app/core/models/recruitment/candidate-response';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
 import { ApiService } from '@/app/core/services/api-service';
 import { LoaderService } from '@/app/core/services/loader-service';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastService } from '@/app/core/services/toast-service';
 import { finalize } from 'rxjs';
-import { requiredArray } from '@/app/core/validators/required-array';
 
 @Component({
   selector: 'app-candidate-form',
   imports: [
     ReactiveFormsModule,
-    TabsModule,
-    ButtonModule,
-    DividerModule,
+    MatTabsModule,
+    MatButtonModule,
     ResumeDetailsTab,
     PersonalDetailsTab,
     ProfessionalDetailsTab
@@ -32,8 +29,8 @@ export class CandidateForm {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private loader = inject(LoaderService);
-  private config = inject(DynamicDialogConfig);
-  private ref = inject(DynamicDialogRef);
+  private config = inject(MAT_DIALOG_DATA);
+  private ref = inject(MatDialogRef);
   private toast = inject(ToastService);
 
   candidateForm!: FormGroup;
@@ -43,9 +40,9 @@ export class CandidateForm {
   ngOnInit() {
     this.createCandidateForm();
 
-    if (this.config.data?.candidate) {
+    if (this.config?.candidate) {
       this.isEditMode.set(true);
-      this.patchCandidateForm(this.config.data.candidate);
+      this.patchCandidateForm(this.config.candidate);
     }
   }
 

@@ -5,14 +5,11 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from "@angular/router";
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { AddEditTeam } from '../add-edit-team/add-edit-team';
 
 @Component({
@@ -20,13 +17,10 @@ import { AddEditTeam } from '../add-edit-team/add-edit-team';
   imports: [
     CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    TooltipModule,
-    RouterLink
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
   ],
   templateUrl: './list-teams.html',
   styleUrl: './list-teams.scss',
@@ -34,7 +28,7 @@ import { AddEditTeam } from '../add-edit-team/add-edit-team';
 export class ListTeams {
   private api = inject(ApiService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   teams = signal<TeamResponse[]>([]);
 
@@ -58,14 +52,12 @@ export class ListTeams {
 
   openAddTeamDialog(): void {
     const ref = this.dialog.open(AddEditTeam, {
-      header: "Create Team",
       data: null,
-      modal: true,
-      closable: true,
+      disableClose: true,
       width: '450px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchTeams();
       }

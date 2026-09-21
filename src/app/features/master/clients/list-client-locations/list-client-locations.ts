@@ -7,12 +7,10 @@ import { LoaderService } from '@/app/core/services/loader-service';
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { AddEditClientLocation } from '../add-edit-client-location/add-edit-client-location';
 
@@ -20,11 +18,9 @@ import { AddEditClientLocation } from '../add-edit-client-location/add-edit-clie
   selector: 'app-list-client-locations',
   imports: [CommonModule,
     FormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule],
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule],
   templateUrl: './list-client-locations.html',
   styleUrl: './list-client-locations.scss',
 })
@@ -32,7 +28,7 @@ export class ListClientLocations {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   client = input<ClientResponse | null>(null);
   clientLocations = signal<ClientLocationResponse[]>([]);
@@ -63,17 +59,14 @@ export class ListClientLocations {
 
   openAddClientLocationDialog() {
     const ref = this.dialog.open(AddEditClientLocation, {
-      header: 'Create Client Location',
+      width: '500px',
+      disableClose: true,
       data: {
         client: this.client(),
       },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
-      width: '500px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.getClientLocations(this.client()!.id);
         this.refresh.emit();
@@ -83,18 +76,15 @@ export class ListClientLocations {
 
   openEditClientLocationDialog(clientLocation: ClientLocationResponse) {
     const ref = this.dialog.open(AddEditClientLocation, {
-      header: 'Edit Client Location',
+      width: '500px',
+      disableClose: true,
       data: {
         client: this.client(),
         clientLocation: clientLocation
       },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
-      width: '500px'
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.getClientLocations(this.client()!.id);
       }

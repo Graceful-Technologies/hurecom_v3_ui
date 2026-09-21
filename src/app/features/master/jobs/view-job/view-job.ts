@@ -4,13 +4,10 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { LucideBriefcase, LucideBuilding2, LucideCalendar, LucideMapPin, LucideMonitor, LucideTag, LucideUser, LucideUsers, LucideWallet } from '@lucide/angular';
-import { ButtonModule } from 'primeng/button';
-import { ChipModule } from 'primeng/chip';
-import { DividerModule } from 'primeng/divider';
-import { EditorModule } from 'primeng/editor';
-import { TabsModule } from 'primeng/tabs';
 import { ListJobAssignments } from '../list-job-assignments/list-job-assignments';
 import { ListJobAttachments } from '../list-job-attachments/list-job-attachments';
 import { ListJobCommissions } from '../list-job-commissions/list-job-commissions';
@@ -20,21 +17,14 @@ import { ViewJobDetails } from '../view-job-details/view-job-details';
   selector: 'app-view-job',
   imports: [
     CommonModule,
-    ButtonModule,
-    TabsModule,
-    EditorModule,
-    ChipModule,
-    DividerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
     ViewJobDetails,
     ListJobAttachments,
     ListJobAssignments,
     ListJobCommissions,
-    LucideUsers,
-    LucideBriefcase,
-    LucideMonitor,
-    LucideMapPin,
-    LucideBuilding2,
-    LucideUser, LucideWallet, LucideTag, LucideCalendar],
+  ],
   templateUrl: './view-job.html',
   styleUrl: './view-job.scss',
 })

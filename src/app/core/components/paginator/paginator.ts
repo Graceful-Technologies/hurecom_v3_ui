@@ -1,11 +1,14 @@
 import { Component, computed, input, output } from '@angular/core';
-import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-paginator',
   standalone: true,
-  imports: [SelectModule, FormsModule],
+  imports: [FormsModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatSelectModule],
   templateUrl: './paginator.html',
   styleUrl: './paginator.scss',
 })

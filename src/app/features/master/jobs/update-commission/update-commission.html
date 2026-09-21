@@ -1,77 +1,36 @@
 <form [formGroup]="commissionForm" class="flex flex-col gap-5" autocomplete="off">
     <div class="grid grid-cols-1 gap-4">
-
-        <!-- Commission Type -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Commission Type
-            </label>
-
-            <p-select appendTo="body" [options]="commissionTypes()" formControlName="commissionType" optionLabel="name"
-                optionValue="code" placeholder="Select Commission Type" class="w-full">
-            </p-select>
-
-            @if (commissionForm.controls['commissionType'].invalid &&
-            commissionForm.controls['commissionType'].dirty) {
-
-            <small class="text-red-500">
-                Commission Type is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Commission Type</mat-label>
+            <mat-select formControlName="commissionType">
+                @for (type of commissionTypes(); track type.code) {
+                <mat-option [value]="type.code">{{ type.name }}</mat-option>
+                }
+            </mat-select>
+            @if (commissionForm.controls['commissionType'].invalid && commissionForm.controls['commissionType'].dirty) {
+            <mat-error>Commission Type is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Commission Value -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Commission Value
-            </label>
-
-            <p-inputNumber formControlName="commissionValue" mode="decimal" [minFractionDigits]="0"
-                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (commissionForm.controls['commissionValue'].invalid &&
-            commissionForm.controls['commissionValue'].dirty) {
-
-            <small class="text-red-500">
-                Commission Value is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Commission Value</mat-label>
+            <input matInput type="number" formControlName="commissionValue" />
+            @if (commissionForm.controls['commissionValue'].invalid && commissionForm.controls['commissionValue'].dirty) {
+            <mat-error>Commission Value is required</mat-error>
             }
-        </div>
+        </mat-form-field>
 
-        <!-- Guarantee Period -->
-        <div class="flex flex-col gap-1">
-
-            <label class="text-sm font-medium text-gray-700">
-                Guarantee Period (in days)
-            </label>
-
-            <p-inputNumber formControlName="guaranteePeriodDays" mode="decimal" [min]="0" [minFractionDigits]="0"
-                [maxFractionDigits]="2" class="w-full" inputStyleClass="w-full">
-            </p-inputNumber>
-
-            @if (commissionForm.controls['guaranteePeriodDays'].invalid &&
-            commissionForm.controls['guaranteePeriodDays'].dirty) {
-
-            <small class="text-red-500">
-                Guarantee Period is required
-            </small>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Guarantee Period (in days)</mat-label>
+            <input matInput type="number" formControlName="guaranteePeriodDays" />
+            @if (commissionForm.controls['guaranteePeriodDays'].invalid && commissionForm.controls['guaranteePeriodDays'].dirty) {
+            <mat-error>Guarantee Period is required</mat-error>
             }
-        </div>
-
+        </mat-form-field>
     </div>
 
-    <!-- Actions -->
     <div class="hurecom-dialog-footer flex justify-end gap-2 pt-2">
-
-        <p-button type="button" label="Cancel" variant="outlined" (onClick)="closeDialog()">
-        </p-button>
-
-        <p-button type="button" label="Update" (onClick)="updateCommission()">
-        </p-button>
-
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="updateCommission()">Update</button>
     </div>
-
 </form>

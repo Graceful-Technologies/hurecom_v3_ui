@@ -5,16 +5,16 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
-import { DialogService } from 'primeng/dynamicdialog';
 import { AddEditTeam } from '../add-edit-team/add-edit-team';
 import { ListTeamMembers } from '../list-team-members/list-team-members';
 
 @Component({
   selector: 'app-view-team',
-  imports: [CommonModule, ButtonModule, DividerModule, ListTeamMembers],
+  imports: [CommonModule, MatButtonModule, MatIconModule, ListTeamMembers],
   templateUrl: './view-team.html',
   styleUrl: './view-team.scss',
 })
@@ -23,7 +23,7 @@ export class ViewTeam {
   private api = inject(ApiService);
   private loader = inject(LoaderService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   team = signal<TeamResponse | null>(null);
   teamId = signal<number | null>(null);
@@ -49,14 +49,12 @@ export class ViewTeam {
 
   openEditTeamDialog() {
     const ref = this.dialog.open(AddEditTeam, {
-      header: 'Edit Team',
+      width: '420px',
+      disableClose: true,
       data: { team: this.team() },
-      modal: true,
-      closable: true,
-      dismissableMask: false,
     });
 
-    ref?.onClose.subscribe((response) => {
+    ref.afterClosed().subscribe((response) => {
       if (response) {
         this.getTeam();
       }

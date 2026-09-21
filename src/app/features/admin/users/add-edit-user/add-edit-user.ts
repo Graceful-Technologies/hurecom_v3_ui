@@ -4,16 +4,17 @@ import { UserResponse } from '@/app/core/models/admin/user-response';
 import { ApiService } from '@/app/core/services/api-service';
 import { LoaderService } from '@/app/core/services/loader-service';
 import { ToastService } from '@/app/core/services/toast-service';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-edit-user',
-  imports: [ReactiveFormsModule, InputTextModule, SelectModule, ButtonModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './add-edit-user.html',
   styleUrl: './add-edit-user.scss',
 })
@@ -21,8 +22,8 @@ export class AddEditUser {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private loader = inject(LoaderService);
-  private config = inject(DynamicDialogConfig);
-  private ref = inject(DynamicDialogRef);
+  private config = inject(MAT_DIALOG_DATA);
+  private ref = inject(MatDialogRef);
   private toast = inject(ToastService);
 
   userForm!: FormGroup;
@@ -35,9 +36,9 @@ export class AddEditUser {
     this.getOrganizations();
     this.getRoles();
 
-    if (this.config.data?.user) {
+    if (this.config?.user) {
       this.isEditMode.set(true);
-      this.patchUserForm(this.config.data.user);
+      this.patchUserForm(this.config.user);
     }
   }
 

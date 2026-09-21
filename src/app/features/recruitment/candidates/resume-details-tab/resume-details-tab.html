@@ -6,24 +6,20 @@
         </span>
 
         @if (!selectedResume()) {
-        <button pButton type="button" label="Upload" icon="pi pi-upload" size="small"
-            (click)="fileInput.click()">
+        <button mat-stroked-button type="button" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+            Upload
         </button>
         }@else{
         <div class="flex items-center gap-2">
 
-            <p-button icon="pi pi-sparkles" severity="primary" size="small">
-            </p-button>
+            <button mat-icon-button color="primary" aria-label="Parse resume"><mat-icon>auto_awesome</mat-icon></button>
 
-            <p-button icon="pi pi-eye" severity="secondary" size="small">
-            </p-button>
+            <button mat-icon-button aria-label="Preview resume"><mat-icon>visibility</mat-icon></button>
 
-            <p-button icon="pi pi-refresh" severity="secondary" size="small" (onClick)="fileInput.click()">
-            </p-button>
+            <button mat-icon-button aria-label="Replace resume" (click)="fileInput.click()"><mat-icon>refresh</mat-icon></button>
 
-            <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small"
-                (onClick)="deleteResume(fileInput)">
-            </p-button>
+            <button mat-icon-button color="warn" aria-label="Delete resume" (click)="deleteResume(fileInput)"><mat-icon>delete</mat-icon></button>
 
         </div>
         }
@@ -37,7 +33,7 @@
 
         <div class="flex items-center gap-3">
 
-            <i class="pi pi-file-pdf resume-icon"></i>
+            <mat-icon class="resume-icon">picture_as_pdf</mat-icon>
 
             <div class="flex flex-col">
 
@@ -60,7 +56,7 @@
 
         <div class="flex items-center gap-3">
 
-            <i class="pi pi-file text-2xl"></i>
+            <mat-icon class="text-2xl">description</mat-icon>
 
             <div class="flex flex-col">
 

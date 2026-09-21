@@ -1,19 +1,24 @@
 <form [formGroup]="candidateForm" class="candidate-form">
-
-    <div class="grid grid-cols-3">
-        <div class="col-span-2">
-            <app-personal-details-tab [candidateForm]="candidateForm"></app-personal-details-tab>
-        </div>
-        <div class="col-span-3">
-            <app-professional-details-tab [candidateForm]="candidateForm"></app-professional-details-tab>
-        </div>
-    </div>
+    <mat-tab-group>
+        <mat-tab label="Basic Information">
+            <div class="pt-4">
+                <app-personal-details-tab [candidateForm]="candidateForm"></app-personal-details-tab>
+            </div>
+        </mat-tab>
+        <mat-tab label="Professional Information">
+            <div class="pt-4">
+                <app-professional-details-tab [candidateForm]="candidateForm"></app-professional-details-tab>
+            </div>
+        </mat-tab>
+        <mat-tab label="Resume">
+            <div class="pt-4">
+                <app-resume-details-tab [selectedResume]="selectedResume()" (selectedResumeChange)="selectedResume.set($event)"></app-resume-details-tab>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 
     <div class="hurecom-dialog-footer flex items-center justify-end gap-2 mt-4">
-        <p-button type="button" label="Cancel/Denied" variant="outlined">
-        </p-button>
-
-        <p-button type="button" label="Save Candidate" (onClick)="saveCandidate()">
-        </p-button>
+        <button mat-stroked-button type="button" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button color="primary" type="button" (click)="saveCandidate()">Save Candidate</button>
     </div>
 </form>

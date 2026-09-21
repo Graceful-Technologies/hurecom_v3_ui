@@ -6,25 +6,24 @@ import { GlobalService } from '@/app/core/services/global-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { CandidateForm } from '../candidate-form/candidate-form';
-import { ChipModule } from 'primeng/chip';
-import { LucideBuilding2, LucideGraduationCap, LucideIndianRupee, LucideMail, LucideMapPin, LucidePhone } from '@lucide/angular';
+import { LucideBuilding2, LucideGraduationCap, LucideIndianRupee, LucideMail, LucidePhone } from '@lucide/angular';
 
 @Component({
   selector: 'app-list-candidates',
   imports: [
     CommonModule,
-    ButtonModule,
-    TableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
     RouterModule,
-    ChipModule,
     Paginator,
     LucidePhone,
     LucideMail,
-    LucideMapPin,
     LucideBuilding2,
     LucideIndianRupee,
     LucideGraduationCap
@@ -35,7 +34,7 @@ import { LucideBuilding2, LucideGraduationCap, LucideIndianRupee, LucideMail, Lu
 export class ListCandidates {
   private api = inject(ApiService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
+  private dialog = inject(MatDialog);
 
   candidates = signal<CandidateResponse[]>([]);
   currentPage = signal(0);
@@ -71,16 +70,14 @@ export class ListCandidates {
 
   openAddCandidateDialog(): void {
     const ref = this.dialog.open(CandidateForm, {
-      header: "Create Candidate",
       data: null,
-      modal: true,
-      closable: true,
-      maximizable: true,
       width: '95vw',
-      height: '90vh'
+      maxWidth: '1200px',
+      height: '90vh',
+      disableClose: true
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchCandidates();
       }
@@ -89,18 +86,16 @@ export class ListCandidates {
 
   openEditCandidateDialog(candidate: CandidateResponse): void {
     const ref = this.dialog.open(CandidateForm, {
-      header: "Create Candidate",
       data: {
         candidate: candidate
       },
-      modal: true,
-      closable: true,
-      maximizable: true,
       width: '95vw',
-      height: '90vh'
+      maxWidth: '1200px',
+      height: '90vh',
+      disableClose: true
     });
 
-    ref?.onClose.subscribe((response: any) => {
+    ref.afterClosed().subscribe((response: any) => {
       if (response) {
         this.searchCandidates();
       }

@@ -12,37 +12,34 @@
                     </span>
                 </div>
             </div>
-            <p-button label="Edit Job" icon="pi pi-pencil" (onClick)="openEditJobDialog()"></p-button>
+            <button mat-flat-button color="primary" (click)="openEditJobDialog()">
+                <mat-icon>edit</mat-icon>
+                Edit Job
+            </button>
         </div>
         <div class="flex flex-row gap-8 mt-4">
-
             <div class="flex items-center gap-2 mt-1">
-                <svg class="table-icon" lucideTag></svg>
+                <span class="font-medium">Code:</span>
                 <span>{{ job()?.jobCode }}</span>
             </div>
-
             <div class="flex items-center gap-2 mt-1">
-                <svg class="table-icon" lucideBuilding2></svg>
+                <span class="font-medium">Client:</span>
                 <span>{{ job()?.clientName }}</span>
             </div>
-
             <div class="flex items-center gap-2 mt-1">
-                <svg class="table-icon" lucideMapPin></svg>
+                <span class="font-medium">Location:</span>
                 <span>{{ job()?.clientLocation }}</span>
             </div>
-
             <div class="flex items-center gap-2 mt-1">
-                <svg class="table-icon" lucideUser></svg>
+                <span class="font-medium">SPOC:</span>
                 <span>{{ job()?.clientSpocName }} (SPOC)</span>
             </div>
         </div>
 
-        <!-- KPI CARDS -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
-
             <div class="hr-small-card flex items-center gap-5">
                 <div class="card-icon-wrapper">
-                    <svg class="card-icon" lucideUsers></svg>
+                    <mat-icon>group</mat-icon>
                 </div>
                 <div class="flex flex-col">
                     <div class="row1">Open Positions</div>
@@ -53,7 +50,7 @@
 
             <div class="hr-small-card flex items-center gap-5">
                 <div class="card-icon-wrapper">
-                    <svg class="card-icon" lucideBriefcase></svg>
+                    <mat-icon>work</mat-icon>
                 </div>
                 <div class="flex flex-col">
                     <div class="row1">Experience</div>
@@ -64,7 +61,7 @@
 
             <div class="hr-small-card flex items-center gap-5">
                 <div class="card-icon-wrapper">
-                    <svg class="card-icon" lucideWallet></svg>
+                    <mat-icon>attach_money</mat-icon>
                 </div>
                 <div class="flex flex-col">
                     <div class="row1">Max CTC</div>
@@ -75,7 +72,7 @@
 
             <div class="hr-small-card flex items-center gap-5">
                 <div class="card-icon-wrapper">
-                    <svg class="card-icon" lucideMonitor></svg>
+                    <mat-icon>laptop</mat-icon>
                 </div>
                 <div class="flex flex-col">
                     <div class="row1">Work Mode</div>
@@ -85,9 +82,8 @@
             </div>
         </div>
 
-        <p-divider></p-divider>
+        <div class="divider my-4"></div>
 
-        <!-- SKILLS -->
         <div class="mt-4">
             <div class="text-[16px] font-[600] mb-3">
                 Skills Required
@@ -95,12 +91,12 @@
 
             <div class="flex items-center gap-2 flex-wrap">
                 @for (skill of job()?.skills; track skill) {
-                <p-chip [label]="skill" class="hr-skill-chip"></p-chip>
+                <span class="hr-skill-chip">{{ skill }}</span>
                 }
             </div>
         </div>
 
-        <p-divider></p-divider>
+        <div class="divider my-4"></div>
 
         <div class="mt-4">
             <div class="text-[16px] font-[600] mb-3">
@@ -112,22 +108,21 @@
             </div>
         </div>
 
-        <p-divider></p-divider>
+        <div class="divider my-4"></div>
 
-        <!-- AUDIT -->
         <div class="mt-4">
             <div class="text-[16px] font-[600] mb-3">
                 Audit Information
             </div>
 
             <div class="flex items-center gap-2">
-                <svg class="table-icon" lucideCalendar></svg>
+                <mat-icon>calendar_today</mat-icon>
                 <span class="w-32 hr-text-muted">Created On</span>
                 <span>{{ job()?.createdDate | date:'dd MMM yyyy' }}</span>
             </div>
 
             <div class="flex items-center gap-2 mt-3">
-                <svg class="table-icon" lucideUser></svg>
+                <mat-icon>person</mat-icon>
                 <span class="w-32 hr-text-muted">Created By</span>
                 <span>{{ job()?.createdUserName || '-' }}</span>
             </div>

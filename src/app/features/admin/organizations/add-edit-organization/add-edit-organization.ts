@@ -5,14 +5,15 @@ import { LoaderService } from '@/app/core/services/loader-service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { TabsModule } from 'primeng/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-edit-organization',
-  imports: [CommonModule, TabsModule, ButtonModule, InputTextModule, SelectModule, ReactiveFormsModule],
+  imports: [CommonModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule],
   templateUrl: './add-edit-organization.html',
   styleUrl: './add-edit-organization.scss',
 })
@@ -22,6 +23,8 @@ export class AddEditOrganization {
   private readonly api = inject(ApiService);
   private readonly ls = inject(LoaderService);
   private ds = inject(DrawerService);
+  private dialogRef = inject(MatDialogRef<AddEditOrganization>);
+  private dialogData = inject(MAT_DIALOG_DATA, { optional: true });
 
   statuses = signal<any>([
     {
@@ -38,8 +41,9 @@ export class AddEditOrganization {
 
   ngOnInit() {
     this.createOrganizationForm();
-    if (this.data()?.organization) {
-      this.patchOrganizationForm(this.data().organization);
+    const organization = this.data()?.organization ?? this.dialogData?.organization;
+    if (organization) {
+      this.patchOrganizationForm(organization);
     }
   }
 
@@ -71,7 +75,7 @@ export class AddEditOrganization {
     this.api.post(route, payload).subscribe({
       next: response => {
         this.ls.hide();
-        this.ds.close("refresh");
+        this.dialogRef.close(true);
       },
       error: error => {
         this.ls.hide();
@@ -79,5 +83,7 @@ export class AddEditOrganization {
     });
   }
 
-  close() { }
+  close() {
+    this.dialogRef.close();
+  }
 }

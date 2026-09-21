@@ -1,42 +1,34 @@
 <div class="hr-card">
     <div class="flex items-center justify-between mb-3">
-        <div class="text-[16px] font-[600]">
-            Assignments
-        </div>
-        <p-button label="Assign Team" size="small" (onClick)="openAssignTeamDialog()"></p-button>
+        <div class="text-[16px] font-[600]">Assignments</div>
+        <button mat-stroked-button color="primary" (click)="openAssignTeamDialog()">Assign Team</button>
     </div>
 
-    <p-table [value]="assignments()" [scrollable]="true">
-        <ng-template #header>
-            <tr>
-                <th scope="col">Team</th>
-                <th scope="col">Effective From</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-assignment>
-            <tr>
-                <td>
-                    {{assignment.teamName}}
-                </td>
-                <td>
-                    {{assignment.startDate | date:'mediumDate'}}
-                </td>
-                <td>
-                    <p-button label="Remove" icon="pi pi-trash" variant="outlined" size="small"
-                        (onClick)="removeAssignment(assignment)">
-                    </p-button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-            <tr>
-                <td colspan="3">
-                    <div class="hr-small-empty">
-                        <p class="hr-small-empty-title">No assignments found</p>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+    <table mat-table [dataSource]="assignments()" class="w-full">
+        <ng-container matColumnDef="team">
+            <th mat-header-cell *matHeaderCellDef>Team</th>
+            <td mat-cell *matCellDef="let assignment">{{ assignment.teamName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="effectiveFrom">
+            <th mat-header-cell *matHeaderCellDef>Effective From</th>
+            <td mat-cell *matCellDef="let assignment">{{ assignment.startDate | date:'mediumDate' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let assignment">
+                <button mat-stroked-button color="warn" (click)="removeAssignment(assignment)">Remove</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['team', 'effectiveFrom', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['team', 'effectiveFrom', 'actions'];"></tr>
+    </table>
+
+    @if (assignments().length === 0) {
+    <div class="hr-small-empty">
+        <p class="hr-small-empty-title">No assignments found</p>
+    </div>
+    }
 </div>

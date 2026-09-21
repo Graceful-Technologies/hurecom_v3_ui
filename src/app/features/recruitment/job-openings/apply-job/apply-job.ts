@@ -3,7 +3,6 @@ import { ApiService } from '@/app/core/services/api-service';
 import { GlobalService } from '@/app/core/services/global-service';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-apply-job',
@@ -14,7 +13,6 @@ import { DialogService } from 'primeng/dynamicdialog';
 export class ApplyJob {
   private api = inject(ApiService);
   public global = inject(GlobalService);
-  private dialog = inject(DialogService);
   private route = inject(ActivatedRoute);
 
   job = signal<JobResponse | null>(null);

@@ -2,17 +2,13 @@ import { MasterDataResponse } from '@/app/core/models/common/master-data-respons
 import { ApiService } from '@/app/core/services/api-service';
 import { Component, inject, input, signal } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { TextareaModule } from 'primeng/textarea';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-professional-details-tab',
-  imports: [ReactiveFormsModule, InputTextModule, InputNumberModule, TextareaModule, SelectModule, ButtonModule, DatePickerModule, AutoCompleteModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './professional-details-tab.html',
   styleUrl: './professional-details-tab.scss',
   viewProviders: [
