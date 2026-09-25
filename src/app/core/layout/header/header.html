@@ -1,8 +1,37 @@
 <header class="header h-14 bg-white border-b">
   <div class="flex h-full items-center justify-end px-4">
-    <button mat-stroked-button color="primary" type="button" (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      Logout
+    <button class="profile-trigger" mat-button [matMenuTriggerFor]="profileMenu" type="button">
+      <span class="profile-avatar">{{ initials }}</span>
+      <span class="profile-summary">
+        <strong>{{ account()?.username || 'User' }}</strong>
+        <small>{{ account()?.email || 'Loading account...' }}</small>
+      </span>
+      <mat-icon>expand_more</mat-icon>
     </button>
   </div>
 </header>
+
+<mat-menu #profileMenu="matMenu" class="profile-menu">
+  <button mat-menu-item type="button" (click)="openAccount()">
+    <mat-icon>person_outline</mat-icon>
+    <span>My Account</span>
+  </button>
+  <button mat-menu-item type="button" (click)="openChangePassword()">
+    <mat-icon>lock_outline</mat-icon>
+    <span>Change Password</span>
+  </button>
+  <button mat-menu-item type="button" (click)="openEmailConfiguration()">
+    <mat-icon>mail_outline</mat-icon>
+    <span>My Email Configuration</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item type="button" (click)="openControlPanel()">
+    <mat-icon>settings</mat-icon>
+    <span>Control Panel</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item type="button" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

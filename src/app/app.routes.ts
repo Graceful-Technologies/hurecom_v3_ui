@@ -52,6 +52,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             {
+                path: 'my-account',
+                loadComponent: () => import('./features/account/account').then(m => m.Account)
+            },
+            {
                 path: 'organizations',
                 loadChildren: () => import('./features/admin/organizations/organization.routes').then(m => m.ORGANIZATION_ROUTES)
             },

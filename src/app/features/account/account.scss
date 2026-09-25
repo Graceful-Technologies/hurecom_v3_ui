@@ -1,0 +1,40 @@
+.account-page {
+  background: #f8fafc;
+}
+
+.account-value {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.account-label {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.account-text {
+  color: #0f172a;
+  font-size: 16px;
+}
+
+mat-card {
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+}
+
+mat-card-header {
+  align-items: center;
+}
+
+mat-card-content {
+  display: grid;
+}
+
+button {
+  justify-self: start;
+}

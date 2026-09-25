@@ -1,0 +1,75 @@
+<section class="account-page p-6">
+  <div class="mb-6 flex items-start justify-between">
+    <div>
+      <p class="text-sm font-medium uppercase tracking-wide text-slate-500">Account</p>
+      <h1 class="text-2xl font-semibold text-slate-900">My Account</h1>
+    </div>
+    <button mat-icon-button type="button" aria-label="Close account" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="rounded-lg border border-slate-200 bg-white p-6 text-slate-500">
+      Loading account details...
+    </div>
+  } @else {
+    <div class="grid max-w-4xl gap-6 lg:grid-cols-2">
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>person</mat-icon>
+          <mat-card-title>Profile details</mat-card-title>
+          <mat-card-subtitle>Your account information</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="grid gap-4 pt-6">
+          <div class="account-value">
+            <span class="account-label">Username</span>
+            <span class="account-text">{{ account()?.username || '-' }}</span>
+          </div>
+          <div class="account-value">
+            <span class="account-label">Email address</span>
+            <span class="account-text">{{ account()?.email || '-' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>lock</mat-icon>
+          <mat-card-title>Change password</mat-card-title>
+          <mat-card-subtitle>Use at least 8 characters</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="pt-6">
+          <form class="grid gap-2" [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <mat-form-field appearance="outline">
+              <mat-label>Current password</mat-label>
+              <input matInput type="password" formControlName="currentPassword" />
+              @if (passwordForm.controls.currentPassword.hasError('required')) {
+                <mat-error>Current password is required.</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>New password</mat-label>
+              <input matInput type="password" formControlName="newPassword" />
+              @if (passwordForm.controls.newPassword.hasError('required')) {
+                <mat-error>New password is required.</mat-error>
+              } @else if (passwordForm.controls.newPassword.hasError('minlength')) {
+                <mat-error>Password must be at least 8 characters.</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm new password</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" />
+              @if (passwordForm.controls.confirmPassword.hasError('required')) {
+                <mat-error>Please confirm your new password.</mat-error>
+              } @else if (passwordForm.controls.confirmPassword.hasError('mismatch')) {
+                <mat-error>Passwords do not match.</mat-error>
+              }
+            </mat-form-field>
+            <button mat-flat-button color="primary" type="submit">Change password</button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</section>
